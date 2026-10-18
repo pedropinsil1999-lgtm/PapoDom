@@ -1,0 +1,10 @@
+# referência local: export do Claude Design e PNGs originais (pesados, não vão para o repositório)
+_original/
+
+# configuração local do Claude Code
+.claude/
+
+.vercel
+node_modules/
+.DS_Store
+Thumbs.db

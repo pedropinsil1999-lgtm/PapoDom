@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div ref="{{ root }}" data-screen-label="09 Fecho" style="background:#EBF06B;color:#0A0A0A;overflow:hidden">
+  <section aria-labelledby="fecho-title" style="position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:clamp(20px,3vw,40px);padding:clamp(100px,14vh,140px) 20px clamp(48px,6vw,80px);text-align:center">
+    <p data-reveal="" style="display:flex;align-items:center;gap:10px;background:#7433E6;color:#FFFFFF;padding:9px 16px;border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase">
+      <span data-on="" aria-hidden="true" style="width:9px;height:9px;border-radius:50%;background:#EBF06B"></span>papodom está online
+    </p>
+    <div data-face="" role="img" aria-label="Emoticon sorrindo" onClick="{{ poke }}" data-cursor="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-stretch:82%;font-size:clamp(200px,40vw,600px);line-height:.8;letter-spacing:-.02em;color:#7433E6;display:flex;align-items:center;user-select:none;padding:0 .08em .06em">
+      <span data-eyes="" aria-hidden="true" style="display:inline-block;transform-origin:50% 58%">{{ eyes }}</span><span aria-hidden="true" style="display:inline-block">{{ mouth }}</span>
+    </div>
+    <h2 id="fecho-title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:82%;font-size:clamp(26px,3.4vw,52px);line-height:1;letter-spacing:-.03em;max-width:22ch;text-wrap:balance">Uma década. Diferentes linguagens. Uma mesma conexão.</h2>
+  </section>
+
+  <footer style="padding:0 clamp(20px,5vw,72px) clamp(96px,10vw,130px)">
+    <div style="max-width:1320px;margin:0 auto;border-top:2px solid #0A0A0A;padding-top:clamp(28px,3vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(28px,4vw,56px)">
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:82%;font-size:30px;line-height:1;letter-spacing:-.02em">Papo Dom · Conexões</span>
+        <span style="font-family:'General Sans',sans-serif;font-weight:500;font-size:16px;line-height:1.5">15ª edição. Evento de Comunicação Social da UniDomBosco.</span>
+      </div>
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Créditos</span>
+        <sc-for list="{{ credits }}" as="c" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase">{{ c.role }}</span>
+            <span style="font-family:'General Sans',sans-serif;font-weight:500;font-size:16px;line-height:1.35">{{ c.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Redes</span>
+        <a href="https://www.instagram.com/papo.dom/" target="_blank" rel="noopener" aria-label="Instagram @papo.dom (abre em nova aba)" style="display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1.5px solid #0A0A0A;padding-bottom:10px;text-decoration:none;color:#0A0A0A" style-hover="color:#7433E6">
+          <span style="font-family:'General Sans',sans-serif;font-weight:500;font-size:16px">Instagram</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600">@papo.dom ↗</span>
+        </a>
+      </div>
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Recomeçar</span>
+        <a href="#01-home" style="display:inline-flex;align-items:center;gap:12px;background:#7433E6;color:#FFFFFF;padding:14px 22px;border-radius:999px;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transition:background-color .3s" style-hover="background-color:#0A0A0A">
+          <span>Voltar ao início</span><span aria-hidden="true">↺</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  root = React.createRef();
+  state = { eyes: ':', mouth: ')' };
+  componentDidMount() { const w = () => { if (window.PapoFX && PapoFX.page) this.fx = PapoFX.page(this.root, (el, red) => this.run(el, red)); else this._t = setTimeout(w, 40); }; w(); }
+  componentDidUpdate(p) { if (this.fx && p.reduced !== this.props.reduced) this.fx.restart(); }
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._p); this.fx && this.fx.kill(); }
+  run(el, red) {
+    const face = el.querySelector('[data-face]'), eyes = el.querySelector('[data-eyes]'), on = el.querySelector('[data-on]');
+    if (red) { gsap.from(face, { opacity: 0, duration: .6 }); return; }
+    gsap.from(face, { scale: 0, rotation: -25, duration: 1.2, ease: 'elastic.out(1,.5)' });
+    const blink = gsap.to(on, { opacity: .25, duration: .6, yoyo: true, repeat: -1, ease: 'steps(1)' });
+    const eyesTl = gsap.timeline({ repeat: -1, repeatDelay: 2.8, delay: 1.4 })
+      .to(eyes, { scaleY: .08, duration: .07, ease: 'power1.in' }).to(eyes, { scaleY: 1, duration: .12 })
+      .to(eyes, { scaleY: .08, duration: .07, delay: .16 }).to(eyes, { scaleY: 1, duration: .12 });
+    ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', onToggle: s => [blink, eyesTl].forEach(t => s.isActive ? t.play() : t.pause()) });
+    let wt;
+    const wink = setInterval(() => { this.setState({ eyes: ';' }); wt = setTimeout(() => this.setState({ eyes: ':' }), 700); }, 7500);
+    const xt = gsap.quickTo(face, 'x', { duration: .9, ease: 'power3' }), yt = gsap.quickTo(face, 'y', { duration: .9, ease: 'power3' }), rt = gsap.quickTo(face, 'rotation', { duration: .9, ease: 'power3' });
+    const mv = e => {
+      const r = face.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+      xt(dx * .06); yt(dy * .06); rt(dx * .012);
+      const inside = Math.abs(dx) < r.width / 2 && Math.abs(dy) < r.height / 2;
+      if (inside !== this.inside) {
+        this.inside = inside; this.setState({ mouth: inside ? 'D' : ')' });
+        gsap.to(face, { scale: inside ? 1.06 : 1, duration: .6, ease: 'back.out(3)' });
+      }
+    };
+    if (!PapoFX.isTouch()) addEventListener('mousemove', mv, { passive: true });
+    return () => { removeEventListener('mousemove', mv); clearInterval(wink); clearTimeout(wt); };
+  }
+  renderVals() {
+    return {
+      root: this.root, eyes: this.state.eyes, mouth: this.state.mouth,
+      poke: () => { this.setState({ mouth: 'D' }); clearTimeout(this._p); this._p = setTimeout(() => this.setState({ mouth: ')' }), 1200); },
+      credits: [
+        { role: 'Realização', name: '4º período de Comunicação Social da AEDB' },
+        { role: 'Logos', name: 'Leticia Coutinho' },
+        { role: 'Site', name: 'Pedro Henrique Pinheiro' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

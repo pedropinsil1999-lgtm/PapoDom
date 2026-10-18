@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:relative;width:100%">
+  <img src="{{ src }}" srcset="{{ srcset }}" sizes="(max-width: 767px) 90vw, 680px" alt="{{ alt }}" width="1400" height="{{ h }}" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:{{ ratio }};object-fit:contain;border-radius:{{ imgRadius }}">
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:480,&quot;height&quot;:300},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;revista&quot;,&quot;tv&quot;,&quot;web&quot;,&quot;scrap&quot;],&quot;default&quot;:&quot;revista&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  static ALT = {
+    revista: 'Logo Papo Dom · Conexões, 15ª edição — versão Revista/Pop, roxa com verde-limão',
+    tv: 'Logo Papo Dom · Conexões, 15ª edição — versão TV/Cultura jovem, laranja com azul-marinho',
+    web: 'Logo Papo Dom · Conexões, 15ª edição — versão Digital/Web, azul com verde',
+    scrap: 'Logo Papo Dom · Conexões, 15ª edição — versão Scrapbook/Memória, rosa com branco'
+  };
+  static H = { revista: 862, tv: 879, web: 905, scrap: 899 };
+  renderVals() {
+    const v = Component.ALT[this.props.variant] ? this.props.variant : 'revista';
+    const h = Component.H[v];
+    const key = v === 'revista' && this.props.semSelo ? 'logo-revista-sem-selo' : 'logo-' + v;
+    const R = window.__resources || {}, big = R[key] || 'assets/' + key + '.webp', small = R[key + '-800'] || 'assets/' + key + '-800.webp';
+    return {
+      src: big,
+      srcset: R[key] ? undefined : small + ' 800w, ' + big + ' 1400w',
+      imgRadius: v === 'web' ? '14px' : '0',
+      alt: Component.ALT[v],
+      h, ratio: '1400 / ' + h
+    };
+  }
+}
+</script>
+</body>
+</html>

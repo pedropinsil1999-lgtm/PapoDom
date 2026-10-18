@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div ref="{{ root }}" data-screen-label="05 TV" style="position:relative;background:#FF4D1A;color:#0A0A0A;overflow:hidden">
+
+  <section aria-labelledby="tv-title" style="padding:clamp(100px,14vh,150px) clamp(20px,5vw,72px) clamp(72px,10vw,140px)">
+    <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(28px,4vw,56px)">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 32px">
+        <span data-reveal="" style="background:#081680;color:#FFFFFF;padding:9px 14px;border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">05 · Linguagem TV / Cultura jovem</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:{{ cols }};gap:clamp(28px,4vw,64px);align-items:center">
+      <div data-crt="" onPointerMove="{{ poke }}" onPointerDown="{{ tap }}" onMouseLeave="{{ hideNow }}" style="position:relative;width:100%;aspect-ratio:1180 / 918;color:#FFFFFF">
+        <div data-screen="" ref="{{ screenRef }}" style="position:absolute;left:11.4%;top:9.7%;width:77.2%;height:69.9%;overflow:hidden;background:#081680;border-radius:3% / 4.2%">
+          <div data-vinheta="" style="position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 46%,#EE4A16 0%,#E0400E 55%,#B42F0A 100%);opacity:{{ vinOpacity }};transition:opacity .15s">
+            <div data-scanmove="" aria-hidden="true" style="position:absolute;left:0;right:0;top:-12px;height:calc(100% + 24px);background:repeating-linear-gradient(to bottom,rgba(8,22,128,.14) 0,rgba(8,22,128,.14) 3px,transparent 3px,transparent 6px)"></div>
+            <img data-ab="" src="{{ tvLogoSrc }}" alt="Logo Papo Dom · Conexões, 15ª edição — versão TV, azul-marinho com contorno branco, como vinheta do canal" style="position:absolute;left:50%;top:50%;width:54%;height:auto;transform:translate(-50%,-50%);filter:drop-shadow(-3px 0 0 rgba(255,60,40,.55)) drop-shadow(3px 0 0 rgba(120,160,255,.5))">
+          </div>
+          <sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
+            <video ref="{{ videoRef }}" src="{{ videoSrc }}" preload="metadata" tabindex="-1" disablepictureinpicture="" disableremoteplayback="" style="position:absolute;inset:0;pointer-events:none;width:100%;height:100%;object-fit:cover;opacity:{{ vidOpacity }};background:#081680"></video>
+          </sc-if>
+          <div data-snow="" aria-hidden="true" style="position:absolute;inset:0;opacity:0;background-color:#0A0A0A;background-size:180px 180px;pointer-events:none"></div>
+          <div data-scan="" aria-hidden="true" style="position:absolute;left:0;right:0;top:-8px;height:calc(100% + 16px);background:repeating-linear-gradient(to bottom,rgba(0,0,0,.3) 0,rgba(0,0,0,.3) 2px,transparent 2px,transparent 4px);opacity:{{ scanOpacity }};pointer-events:none"></div>
+          <div data-roll="" aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:28%;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.07),transparent);pointer-events:none"></div>
+          <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 52%,rgba(0,0,0,.5) 100%);box-shadow:inset 4px 0 0 rgba(255,60,40,.3),inset -4px 0 0 rgba(120,160,255,.28),inset 0 0 50px rgba(0,0,0,.35)"></div>
+
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:5.5% 4.5% 5%;pointer-events:none">
+            <div style="position:relative;display:grid">
+              <div data-bar="" style="grid-area:1 / 1;align-self:end;display:flex;align-items:center;gap:10px;background:rgba(8,22,128,.88);border-radius:999px;padding:4px;opacity:{{ uiOpacity }};pointer-events:{{ uiEvents }};transition:opacity .3s">
+                <button type="button" onClick="{{ toggleMute }}" aria-label="{{ muteLabel }}" style="flex:none;width:{{ btn }};height:{{ btn }};display:grid;place-items:center;border:0;border-radius:999px;background:transparent;color:#FFFFFF;cursor:pointer;padding:0" style-hover="background:rgba(235,240,107,.18);color:#EBF06B">
+                  <sc-if value="{{ muted }}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"></path><path d="M17 9l5 6M22 9l-5 6"></path></svg>
+                  </sc-if>
+                  <sc-if value="{{ unmuted }}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"></path><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"></path></svg>
+                  </sc-if>
+                </button>
+                <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:11px;letter-spacing:.1em;font-variant-numeric:tabular-nums;color:#FFFFFF">{{ timeLabel }}</span>
+                <div role="slider" tabindex="0" aria-label="Progresso do vídeo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ progPct }}" onClick="{{ seek }}" onKeyDown="{{ seekKey }}" style="flex:1;min-width:0;height:{{ btn }};display:flex;align-items:center;cursor:pointer">
+                  <div style="position:relative;width:100%;height:4px;border-radius:999px;background:rgba(255,255,255,.28);overflow:hidden">
+                    <div style="position:absolute;inset:0;background:#EBF06B;transform-origin:0 50%;transform:scaleX({{ prog }})"></div>
+                  </div>
+                </div>
+                <button type="button" onClick="{{ toggleFs }}" aria-label="Tela cheia" style="flex:none;width:{{ btn }};height:{{ btn }};display:grid;place-items:center;border:0;border-radius:999px;background:transparent;color:#FFFFFF;cursor:pointer;padding:0" style-hover="background:rgba(235,240,107,.18);color:#EBF06B">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" onClick="{{ togglePlay }}" aria-label="{{ playLabel }}" style="position:absolute;inset:0;margin:auto;width:{{ bigBtn }};height:{{ bigBtn }};display:flex;align-items:center;justify-content:center;box-sizing:border-box;border:2px solid #FFFFFF;border-radius:999px;background:#081680;color:#FFFFFF;cursor:pointer;padding:0;opacity:{{ playOpacity }};pointer-events:{{ playEvents }};transition:opacity .18s,color .2s,background-color .2s;box-shadow:0 6px 18px rgba(8,22,128,.35)" style-hover="color:#EBF06B">
+            <sc-if value="{{ playing }}">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:block;width:40%;height:40%"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg>
+            </sc-if>
+            <sc-if value="{{ notPlaying }}">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:block;width:42%;height:42%"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l11.2-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z" transform="translate(-.6 0)"></path></svg>
+            </sc-if>
+          </button>
+          <sc-if value="{{ notice }}" hint-placeholder-val="{{ false }}">
+            <span role="status" style="position:absolute;left:50%;top:calc(50% + clamp(40px,4vw,54px));transform:translateX(-50%);white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:11px;background:#081680;color:#FFFFFF;padding:6px 11px;border-radius:999px">Vídeo em breve</span>
+          </sc-if>
+        </div>
+        <img src="{{ tvFrameSrc }}" alt="" aria-hidden="true" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;filter:drop-shadow(0 24px 30px rgba(8,22,128,.28));transform:translateZ(0)">
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:clamp(24px,3vw,40px);min-width:0">
+        <h2 id="tv-title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-stretch:76%;font-size:clamp(48px,5.6vw,96px);line-height:.88;letter-spacing:-.045em;color:#081680;text-wrap:balance">Senta que lá vem história.</h2>
+        <div data-reveal="" style="background:#081680;color:#FFFFFF;border-radius:22px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Vídeo de apresentação</span>
+          <p style="font-family:'General Sans',sans-serif;font-weight:500;font-size:clamp(18px,1.5vw,22px);line-height:1.55;text-wrap:pretty">Era assim que todo mundo se reunia na frente da televisão. Dá o play e veja o vídeo de apresentação do evento.</p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // VÍDEO DO PLAYER: coloque aqui o caminho do arquivo (ex.: 'assets/papo-dom-tv.mp4').
+  // Vazio = a tela mostra a vinheta do canal.
+  static VIDEO_SRC = 'https://res.cloudinary.com/uorzbswz/video/upload/v1791406127/snapinsta-1791405831542_tkfmf3.mp4';
+  root = React.createRef(); screenRef = React.createRef();
+  state = { wide: true, coarse: false, playing: false, started: false, muted: true, ui: false, notice: false, prog: 0, cur: 0, dur: 0 };
+  componentDidMount() {
+    this.onRs = () => { const wide = innerWidth >= 960; if (wide !== this.state.wide) this.setState({ wide }); };
+    this.onRs(); addEventListener('resize', this.onRs);
+    this.setState({ coarse: matchMedia('(pointer: coarse)').matches });
+    const w = () => { if (window.PapoFX && PapoFX.page) this.fx = PapoFX.page(this.root, (el, red) => this.run(el, red)); else this._t = setTimeout(w, 40); }; w(); }
+  componentDidUpdate(p) { if (this.fx && p.reduced !== this.props.reduced) this.fx.restart(); }
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._ui); clearTimeout(this._nt); removeEventListener('resize', this.onRs); this.fx && this.fx.kill(); this.video && this.video.pause(); }
+  run(el, red) {
+    const q = s => el.querySelector(s);
+    const crt = q('[data-crt]'), scan = q('[data-scan]'), roll = q('[data-roll]'), screen = q('[data-screen]'), ab = q('[data-ab]'), sm = q('[data-scanmove]');
+    this.snow = q('[data-snow]'); this.red = red;
+    if (this.snow && PapoFX.noise) this.snow.style.backgroundImage = 'url(' + PapoFX.noise() + ')';
+    if (red) { gsap.set([scan, roll], { display: 'none' }); gsap.set(ab, { filter: 'none' }); gsap.from(crt, { opacity: 0, duration: .6 }); return; }
+    const snow = this.snow;
+    const flash = gsap.timeline({ repeat: -1, repeatDelay: 9, delay: 6 })
+      .to(snow, { opacity: .16, duration: .05, onUpdate: () => this.jitter() })
+      .to(snow, { opacity: 0, duration: .14 });
+    this.flash = flash;
+    const loops = [
+      gsap.to(scan, { y: 4, duration: .22, ease: 'none', repeat: -1 }),
+      gsap.to(sm, { y: 12, duration: 2.4, ease: 'none', repeat: -1 }),
+      gsap.fromTo(roll, { yPercent: -110 }, { yPercent: 380, duration: 4.6, ease: 'none', repeat: -1 }),
+      gsap.to(screen, { opacity: .95, duration: .06, yoyo: true, repeat: -1, repeatDelay: 2.2 }),
+      flash
+    ];
+    ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', onToggle: s => loops.forEach(t => s.isActive ? t.play() : t.pause()) });
+  }
+  jitter() { if (this.snow) this.snow.style.backgroundPosition = (Math.random() * 180 | 0) + 'px ' + (Math.random() * 180 | 0) + 'px'; }
+  burst(mid) {
+    if (!this.snow || this.red || !window.gsap) { mid && mid(); return; }
+    gsap.timeline().set(this.snow, { opacity: 1 })
+      .to(this.snow, { duration: .3, ease: 'none', onUpdate: () => this.jitter() })
+      .add(() => mid && mid())
+      .to(this.snow, { opacity: 0, duration: .18, ease: 'power2.out', onUpdate: () => this.jitter() });
+  }
+  videoRef = el => {
+    if (this.video === el) return;
+    this.video = el; if (!el) return;
+    el.muted = true; el.defaultMuted = true; el.playsInline = true; el.setAttribute('playsinline', ''); el.removeAttribute('controls');
+    el.disablePictureInPicture = true; el.disableRemotePlayback = true;
+    el.setAttribute('disablepictureinpicture', ''); el.setAttribute('disableremoteplayback', ''); el.setAttribute('controlslist', 'nodownload nofullscreen noremoteplayback noplaybackrate'); el.setAttribute('x-webkit-airplay', 'deny');
+    el.addEventListener('loadedmetadata', () => this.setState({ dur: el.duration || 0 }));
+    el.addEventListener('timeupdate', () => this.setState({ cur: el.currentTime, prog: el.duration ? el.currentTime / el.duration : 0 }));
+    el.addEventListener('play', () => this.setState({ playing: true }));
+    el.addEventListener('pause', () => this.setState({ playing: false, ui: true }));
+    // Fim do vídeo: estática curta, volta para a vinheta da logo com só o play (barra de controles some)
+    el.addEventListener('ended', () => {
+      const back = () => { try { el.currentTime = 0; } catch (e) {} clearTimeout(this._uiT); this.setState({ playing: false, started: false, ui: false, cur: 0, prog: 0 }); };
+      this.burst ? this.burst(back) : back();
+    });
+  };
+  showUi() {
+    clearTimeout(this._ui);
+    if (!this.state.ui) this.setState({ ui: true });
+    this._ui = setTimeout(() => { if (this.state.playing) this.setState({ ui: false }); }, 1400);
+  }
+  togglePlay = () => {
+    const v = this.video;
+    if (!v) {
+      this.burst(() => { this.setState({ notice: true }); clearTimeout(this._nt); this._nt = setTimeout(() => this.setState({ notice: false }), 2200); });
+      return;
+    }
+    if (!v.paused) { v.pause(); return; }
+    const go = () => { const p = v.play(); p && p.catch && p.catch(() => {}); };
+    if (!this.state.started) { this.flash && this.flash.kill(); this.burst(() => { this.setState({ started: true }); go(); }); }
+    else go();
+    this.showUi();
+  };
+  toggleMute = () => { const v = this.video; if (!v) return; v.muted = !v.muted; this.setState({ muted: v.muted }); this.showUi(); };
+  toggleFs = () => {
+    const s = this.screenRef.current, v = this.video;
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    if (s && s.requestFullscreen) s.requestFullscreen().catch(() => {});
+    else if (v && v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+  };
+  seekTo(fr) { const v = this.video; if (v && v.duration) { v.currentTime = Math.max(0, Math.min(1, fr)) * v.duration; this.showUi(); } }
+  fmt(t) { t = Math.max(0, t || 0) | 0; return String(t / 60 | 0).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0'); }
+  renderVals() {
+    const S = this.state, hasVideo = !!Component.VIDEO_SRC, showBar = hasVideo && S.started && S.ui;
+    return {
+      root: this.root, screenRef: this.screenRef, videoRef: this.videoRef,
+      tvLogoSrc: ((window.__resources && window.__resources['logo-tv']) || 'assets/logo-tv.webp'), tvFrameSrc: ((window.__resources && window.__resources['tvFrame']) || 'assets/tv-frame.webp'),
+      cols: S.wide ? 'minmax(0,1.35fr) minmax(0,1fr)' : 'minmax(0,1fr)',
+      hasVideo, videoSrc: Component.VIDEO_SRC || undefined,
+      vinOpacity: S.started ? 0 : 1, vidOpacity: S.started ? 1 : 0,
+      scanOpacity: S.started ? .35 : .8,
+      labelsOpacity: showBar ? 0 : 1, uiOpacity: showBar ? 1 : 0, uiEvents: showBar ? 'auto' : 'none',
+      // Tocando: o botão central some na hora (continua clicável no centro para pausar)
+      playOpacity: S.playing ? 0 : 1, playEvents: 'auto',
+      playing: S.playing, notPlaying: !S.playing, playLabel: S.playing ? 'Pausar' : 'Assistir',
+      muted: S.muted, unmuted: !S.muted, muteLabel: S.muted ? 'Ativar som' : 'Desativar som',
+      notice: S.notice,
+      showDur: !S.playing && !S.notice,
+      durLabel: 'Duração · ' + (S.dur ? this.fmt(S.dur) : '--:--'),
+      durAria: S.dur ? 'Duração do vídeo: ' + this.fmt(S.dur) : 'Duração do vídeo a definir',
+      prog: S.prog, progPct: Math.round(S.prog * 100), timeLabel: this.fmt(S.cur) + ' / ' + this.fmt(S.dur),
+      btn: S.coarse ? '44px' : '34px', bigBtn: S.coarse ? '64px' : 'clamp(52px,5vw,72px)',
+      togglePlay: this.togglePlay, toggleMute: this.toggleMute, toggleFs: this.toggleFs,
+      poke: e => { if (e.pointerType !== 'touch') this.showUi(); },
+      tap: e => { if (e.pointerType === 'touch') this.showUi(); },
+      hideNow: () => { clearTimeout(this._ui); if (S.playing) this.setState({ ui: false }); },
+      seek: e => { const r = e.currentTarget.getBoundingClientRect(); this.seekTo((e.clientX - r.left) / (r.width || 1)); },
+      seekKey: e => { const v = this.video; if (!v || !v.duration) return; if (e.key === 'ArrowRight') { e.preventDefault(); this.seekTo((v.currentTime + 5) / v.duration); } if (e.key === 'ArrowLeft') { e.preventDefault(); this.seekTo((v.currentTime - 5) / v.duration); } }
+    };
+  }
+}
+</script>
+</body>
+</html>

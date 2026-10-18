@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section ref="{{ root }}" data-screen-label="01 Home" aria-labelledby="home-title" style="position:relative;min-height:100svh;background:#7433E6;color:#FFFFFF;overflow:hidden;padding:clamp(96px,13vh,140px) clamp(20px,5vw,72px) clamp(84px,11vh,120px);display:flex;flex-direction:column;justify-content:space-between;gap:clamp(40px,6vh,72px)">
+  <canvas data-grid="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none"></canvas>
+  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none">
+    <span data-float="8" style="position:absolute;left:90%;top:30%;width:10px;height:10px;background:#EBF06B"></span>
+    <span data-float="14" style="position:absolute;left:80%;top:58%;width:26px;height:26px;background:#EBF06B"></span>
+    <span data-float="10" style="position:absolute;left:3%;top:44%;width:12px;height:12px;background:#EBF06B"></span>
+    <span data-float="7" style="position:absolute;left:94%;top:78%;width:8px;height:8px;background:#EBF06B"></span>
+  </div>
+
+  <div data-reveal="" style="position:relative;width:100%;max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 32px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase">
+    <span>15ª edição</span>
+    <span>Comunicação Social · UniDomBosco</span>
+  </div>
+
+  <div style="position:relative;width:100%;max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(28px,5vh,56px)">
+    <div data-logo="" style="position:relative;width:min(680px,100%);transform-origin:30% 70%">
+      <dc-import name="Logo" variant="revista" sem-selo="{{ true }}" hint-size="100%,420px"></dc-import>
+      <img data-seal="" data-portal="" src="{{ seloSrc }}" alt="" aria-hidden="true" style="position:absolute;left:71.638%;top:2.385%;width:13.107%;height:auto;display:block">
+    </div>
+
+    <h1 id="home-title" aria-label="Uma década. Diferentes linguagens. Uma mesma conexão." style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:78%;font-size:clamp(40px,7.6vw,128px);line-height:.94;letter-spacing:-.04em;display:flex;flex-direction:column;text-wrap:balance">
+      <span aria-hidden="true" style="display:flex;flex-wrap:wrap;column-gap:.24em">
+        <span style="display:inline-block;overflow:hidden;padding:.08em .14em .18em .06em;margin:-.08em -.14em -.18em -.06em;vertical-align:top"><span data-word="" style="display:inline-block">Uma</span></span>
+        <span style="display:inline-block;overflow:hidden;padding:.08em .14em .18em .06em;margin:-.08em -.14em -.18em -.06em;vertical-align:top"><span data-word="" style="display:inline-block">década.</span></span>
+      </span>
+      <span aria-hidden="true" style="display:flex;flex-wrap:wrap;column-gap:.24em">
+        <span style="display:inline-block;overflow:hidden;padding:.08em .14em .18em .06em;margin:-.08em -.14em -.18em -.06em;vertical-align:top"><span data-word="" style="display:inline-block">Diferentes</span></span>
+        <span style="display:inline-block;overflow:hidden;padding:.08em .14em .18em .06em;margin:-.08em -.14em -.18em -.06em;vertical-align:top"><span data-word="" style="display:inline-block">linguagens.</span></span>
+      </span>
+      <span aria-hidden="true" style="display:flex;flex-wrap:wrap;column-gap:.24em;color:#EBF06B">
+        <span style="display:inline-block;overflow:hidden;padding:.08em .14em .18em .06em;margin:-.08em -.14em -.18em -.06em;vertical-align:top"><span data-word="" style="display:inline-block">Uma</span></span>
+        <span style="display:inline-block;overflow:hidden;padding:.08em .14em .18em .06em;margin:-.08em -.14em -.18em -.06em;vertical-align:top"><span data-word="" style="display:inline-block">mesma</span></span>
+        <span style="display:inline-block;overflow:hidden;padding:.08em .14em .18em .06em;margin:-.08em -.14em -.18em -.06em;vertical-align:top"><span data-word="" style="display:inline-block">conexão.</span></span>
+      </span>
+    </h1>
+  </div>
+
+  <div data-reveal="" style="position:relative;width:100%;max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase">Uma década em quatro linguagens</span>
+    <a href="#08-evento" style="display:inline-flex;align-items:center;gap:12px;background:#EBF06B;color:#0A0A0A;padding:12px 20px;border-radius:999px;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase" style-hover="background:#FFFFFF">
+      <span>27 e 28/out · 19h · AEDB</span><span aria-hidden="true">↓</span>
+    </a>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  root = React.createRef();
+  componentDidMount() { const w = () => { if (window.PapoFX && PapoFX.page) this.fx = PapoFX.page(this.root, (el, red) => this.run(el, red)); else this._t = setTimeout(w, 40); }; w(); }
+  componentDidUpdate(p) { if (this.fx && p.reduced !== this.props.reduced) this.fx.restart(); }
+  componentWillUnmount() { clearTimeout(this._t); this.fx && this.fx.kill(); }
+  run(el, red) {
+    const logo = el.querySelector('[data-logo]'), seal = el.querySelector('[data-seal]'), words = el.querySelectorAll('[data-word]');
+    const grid = el.querySelector('[data-grid]');
+    const offGrid = grid && PapoFX.kineticGrid ? PapoFX.kineticGrid(grid, el, { reduced: red }) : null;
+    if (red) { gsap.from([logo, seal, ...words], { opacity: 0, duration: .6, stagger: .03 }); return offGrid; }
+    if (grid) gsap.from(grid, { opacity: 0, duration: 1.4, delay: .6, ease: 'power2.out' });
+    gsap.timeline()
+      .from(logo, { scale: .3, opacity: 0, duration: 1.2, ease: 'elastic.out(1,.55)' })
+      .from(seal, { rotation: -540, x: 320, y: -160, scale: .2, opacity: 0, duration: 1.2, ease: 'back.out(1.5)' }, '-=.9')
+      .to(seal, { scale: 1.18, duration: .12, yoyo: true, repeat: 1, ease: 'power2.out' })
+      .from(words, { yPercent: 115, duration: .75, ease: 'power4.out', stagger: .08 }, '-=.8');
+    return offGrid;
+  }
+  renderVals() { return { seloSrc: ((window.__resources && window.__resources['selo']) || 'assets/selo-15.webp'), root: this.root }; }
+}
+</script>
+</body>
+</html>

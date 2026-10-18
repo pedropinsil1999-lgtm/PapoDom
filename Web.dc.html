@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div ref="{{ root }}" data-screen-label="06 Onde" style="position:relative;background:#2E3FE0;color:#FFFFFF;overflow:hidden;min-height:100svh;height:100%;display:flex;flex-direction:column;justify-content:center">
+  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;background:#2E3FE0">
+    <canvas ref="{{ bgCanvasRef }}" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
+    <div style="position:absolute;inset:0;background:#2E3FE0;opacity:.38;mix-blend-mode:multiply"></div>
+    <div style="position:absolute;inset:0;background:#2E3FE0;opacity:.18"></div>
+  </div>
+
+  <section aria-labelledby="web-title" style="position:relative;z-index:1;padding:clamp(100px,14vh,150px) clamp(20px,5vw,72px) clamp(56px,7vw,110px)">
+    <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:20px">
+      <p style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <span style="background:#7CB342;color:#0A0A0A;padding:8px 13px;border-radius:8px;border:2px solid #0A0A0A;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">06 · Onde</span>
+      </p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,40px);align-items:flex-start">
+        <article data-win="" style="position:relative;background:#FFFFFF;color:#0A0A0A;border:2px solid #0A0A0A;border-radius:14px;box-shadow:8px 8px 0 #0A0A0A;overflow:hidden;flex:1 1 480px;max-width:640px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#7CB342;padding:10px 14px;border-bottom:2px solid #0A0A0A">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.08em">Onde</span>
+            <span aria-hidden="true" style="display:flex;gap:6px"><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#FFFFFF"></span><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#FFFFFF"></span><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#0A0A0A"></span></span>
+          </div>
+          <div style="padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:18px">
+            <h2 id="web-title" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-stretch:78%;font-size:clamp(42px,5.4vw,84px);line-height:.95;letter-spacing:-.04em;color:#2E3FE0;text-wrap:balance">Onde.</h2>
+            <p style="font-family:'General Sans',sans-serif;font-weight:500;font-size:clamp(17px,1.4vw,20px);line-height:1.55;max-width:44ch;text-wrap:pretty">O Papo Dom · Conexões acontece na AEDB, a Associação Educacional Dom Bosco, em Resende (RJ).</p>
+          </div>
+        </article>
+
+        <article data-win="" style="position:relative;background:#FFFFFF;color:#0A0A0A;border:2px solid #0A0A0A;border-radius:14px;box-shadow:8px 8px 0 #0A0A0A;overflow:hidden;flex:1 1 340px;max-width:440px;margin-top:clamp(0px,6vw,96px)">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#7CB342;padding:10px 14px;border-bottom:2px solid #0A0A0A">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.08em">Espaços</span>
+            <span aria-hidden="true" style="display:flex;gap:6px"><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#FFFFFF"></span><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#0A0A0A"></span></span>
+          </div>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:16px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#2E3FE0">Locais na faculdade · em breve</span>
+            <!-- Quando os espaços forem definidos, volte com a lista numerada (01, 02, 03…). -->
+            <div style="border-top:2px solid #0A0A0A;padding-top:16px;display:flex;flex-direction:column;gap:12px">
+              <span style="font-family:'Silkscreen',monospace;font-size:18px">Carregando…</span>
+              <p style="font-family:'General Sans',sans-serif;font-weight:500;font-size:16px;line-height:1.5;text-wrap:pretty">Os espaços dentro da faculdade serão anunciados em breve.</p>
+              <div aria-hidden="true" style="height:18px;border:2px solid #0A0A0A;padding:2px"><div style="height:100%;width:42%;background:repeating-linear-gradient(90deg,#2E3FE0 0 10px,transparent 10px 13px)"></div></div>
+            </div>
+          </div>
+        </article>
+
+        <article data-win="" style="position:relative;background:#FFFFFF;color:#0A0A0A;border:2px solid #0A0A0A;border-radius:14px;box-shadow:8px 8px 0 #0A0A0A;overflow:hidden;flex:1 1 300px;max-width:400px;margin-top:clamp(0px,2vw,24px)">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#7CB342;padding:10px 14px;border-bottom:2px solid #0A0A0A">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.08em">Como chegar</span>
+            <span aria-hidden="true" style="display:flex;gap:6px"><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#FFFFFF"></span><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#0A0A0A"></span></span>
+          </div>
+          <div style="border-bottom:2px solid #0A0A0A;background:#D9D9D9">
+            <img src="{{ aedbSrc }}" alt="Fachada da AEDB, Associação Educacional Dom Bosco, em Resende (RJ)" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover">
+          </div>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:14px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600">AEDB · Resende, RJ</span>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=AEDB+Associa%C3%A7%C3%A3o+Educacional+Dom+Bosco+Resende+RJ" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;background:#7CB342;color:#0A0A0A;border:2px solid #0A0A0A;border-radius:8px;padding:0 14px;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase" style-hover="background:#0A0A0A;color:#7CB342">
+              <span>Abrir no Google Maps</span><span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  root = React.createRef();
+  // Fundo em vídeo desenhado num <canvas>: o <video> nunca entra na página, então o navegador e extensões
+  // não colocam botões por cima dele. Escala 1.2 com origem em 35%/35% corta a marca d'água (canto inferior direito).
+  static BG_SRC = 'https://res.cloudinary.com/uorzbswz/video/upload/v1790882776/xp_sky_y2k_background_loop_k5z42n.mp4';
+  bgCanvasRef = React.createRef();
+  startBg() {
+    const cv = this.bgCanvasRef.current; if (!cv || this.bgv) return;
+    const v = document.createElement('video');
+    v.crossOrigin = 'anonymous'; v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.preload = 'auto';
+    v.setAttribute('playsinline', ''); v.setAttribute('muted', '');
+    v.src = Component.BG_SRC; this.bgv = v;
+    const ctx = cv.getContext('2d', { alpha: false });
+    const size = () => { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 1.5); cv.width = Math.max(1, r.width * d | 0); cv.height = Math.max(1, r.height * d | 0); this._dirty = true; };
+    size(); this._ro = new ResizeObserver(size); this._ro.observe(cv);
+    const draw = () => {
+      if (v.readyState < 2) return;
+      const W = cv.width, H = cv.height, vw = v.videoWidth, vh = v.videoHeight; if (!vw) return;
+      const s = Math.max(W / vw, H / vh) * 1.2, dw = vw * s, dh = vh * s;
+      const ox = (W - vw * Math.max(W / vw, H / vh)) / 2, oy = (H - vh * Math.max(W / vw, H / vh)) / 2;
+      const px = W * .35, py = H * .35;
+      ctx.drawImage(v, px + (ox - px) * 1.2, py + (oy - py) * 1.2, dw, dh);
+    };
+    this._vis = false;
+    this._io = new IntersectionObserver(es => { this._vis = es[0].isIntersecting; if (this._vis) { const p = v.play(); p && p.catch && p.catch(() => {}); } else v.pause(); }, { rootMargin: '200px' });
+    this._io.observe(cv);
+    if (v.requestVideoFrameCallback) { const f = () => { draw(); this._vf = v.requestVideoFrameCallback(f); }; this._vf = v.requestVideoFrameCallback(f); }
+    else { this._tick = () => { if (this._vis) draw(); }; gsap.ticker.add(this._tick); }
+    v.addEventListener('loadeddata', draw);
+    const p = v.play(); p && p.catch && p.catch(() => {});
+  }
+  componentDidMount() { this.startBg(); const w = () => { if (window.PapoFX && PapoFX.page) this.fx = PapoFX.page(this.root, (el, red) => this.run(el, red)); else this._t = setTimeout(w, 40); }; w(); }
+  componentDidUpdate(p) { if (this.fx && p.reduced !== this.props.reduced) this.fx.restart(); }
+  componentWillUnmount() { clearTimeout(this._t); this.fx && this.fx.kill(); this._ro && this._ro.disconnect(); this._io && this._io.disconnect(); this._tick && gsap.ticker.remove(this._tick); if (this.bgv) { this.bgv.pause(); this.bgv.removeAttribute('src'); this.bgv.load(); } }
+  run(el, red) {
+    const wins = [...el.querySelectorAll('[data-win]')];
+    gsap.from(wins, { opacity: 0, duration: red ? .4 : .6, ease: 'power2.out', stagger: .1 });
+    if (red) return;
+  }
+  renderVals() {
+    return { bgCanvasRef: this.bgCanvasRef,
+      root: this.root, aedbSrc: ((window.__resources && window.__resources['aedb']) || 'assets/aedb.webp'),
+      spots: [{ n: '01', a: '72%', b: '46%' }, { n: '02', a: '58%', b: '38%' }, { n: '03', a: '66%', b: '42%' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

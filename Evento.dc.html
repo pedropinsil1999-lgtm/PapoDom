@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div ref="{{ root }}" data-screen-label="08 Evento" style="background:#7433E6;color:#FFFFFF;overflow-x:clip">
+  <section aria-labelledby="ev-title" style="padding:clamp(100px,14vh,150px) clamp(20px,5vw,72px) clamp(40px,5vw,72px)">
+    <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(40px,5vw,72px)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:32px;align-items:end">
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase">08 · O evento</p>
+          <h2 id="ev-title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-stretch:75%;font-size:clamp(68px,12vw,200px);line-height:.84;letter-spacing:-.05em;color:#EBF06B">Save the date</h2>
+        </div>
+        <div data-reveal="" style="width:min(320px,70%);justify-self:start"><dc-import name="Logo" variant="revista" hint-size="100%,150px"></dc-import></div>
+      </div>
+
+      <sc-if value="{{ notBefore }}" hint-placeholder-val="{{ false }}">
+        <div data-card="" role="status" style="background:#EBF06B;color:#0A0A0A;border-radius:20px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'Silkscreen',monospace;font-size:clamp(32px,5vw,72px);line-height:1">{{ phaseTitle }}</span>
+          <span style="font-family:'General Sans',sans-serif;font-weight:500;font-size:clamp(17px,1.4vw,20px);line-height:1.5">{{ phaseText }}</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ before }}" hint-placeholder-val="{{ true }}">
+      <div role="timer" aria-label="{{ timerLabel }}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:clamp(8px,1.4vw,16px)">
+        <sc-for list="{{ units }}" as="u" hint-placeholder-count="4">
+          <div data-card="" style="background:#EBF06B;color:#0A0A0A;border-radius:20px;padding:clamp(16px,2vw,28px);display:flex;flex-direction:column;gap:12px">
+            <sc-if value="{{ hasDate }}" hint-placeholder-val="{{ false }}">
+              <span style="font-family:'Silkscreen',monospace;font-size:clamp(44px,6.4vw,104px);line-height:1">{{ u.val }}</span>
+            </sc-if>
+            <sc-if value="{{ noDate }}" hint-placeholder-val="{{ true }}">
+              <span aria-hidden="true" style="display:block;height:clamp(44px,6.4vw,104px);width:78%;background:#BDBDBD;border-radius:10px"></span>
+            </sc-if>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">{{ u.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(12px,1.6vw,20px)">
+        <sc-for list="{{ fields }}" as="f" hint-placeholder-count="4">
+          <div data-reveal="" style="border:2px solid #FFFFFF;border-radius:20px;padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#EBF06B">{{ f.k }}</span>
+            <sc-if value="{{ f.has }}" hint-placeholder-val="{{ true }}">
+              <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:85%;font-size:clamp(22px,2vw,30px);line-height:1.1;letter-spacing:-.01em;text-wrap:pretty">{{ f.v }}</span>
+              <span style="font-family:'General Sans',sans-serif;font-weight:500;font-size:15px;line-height:1.45;text-wrap:pretty">{{ f.s }}</span>
+            </sc-if>
+            <sc-if value="{{ f.none }}" hint-placeholder-val="{{ false }}">
+              <span aria-label="a definir" style="display:block;height:32px;width:82%;background:#D9D9D9;border-radius:8px"></span>
+              <span aria-hidden="true" style="display:block;height:14px;width:54%;background:#D9D9D9;border-radius:6px"></span>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="prog-title" style="padding:clamp(40px,5vw,72px) clamp(20px,5vw,72px) clamp(72px,8vw,120px)">
+    <div style="max-width:1320px;margin:0 auto;display:grid;grid-template-columns:{{ progCols }};gap:clamp(32px,5vw,80px)">
+      <div style="position:{{ progPos }};top:clamp(88px,12vh,120px);align-self:start;display:flex;flex-direction:column;gap:18px">
+        <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#EBF06B">Cronograma do dia</p>
+        <h2 id="prog-title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:80%;font-size:clamp(40px,5vw,80px);line-height:.92;letter-spacing:-.035em">Programação</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;min-width:0">
+      <!-- Quando a programação sair, troque este bloco pela lista de atividades (horário + título + quem). -->
+      <div data-reveal="" style="border-top:2px solid #FFFFFF;padding-top:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:12px">
+        <span style="font-family:'Silkscreen',monospace;font-size:clamp(24px,2.6vw,36px);line-height:1.1;color:#EBF06B">Em breve</span>
+        <p style="font-family:'General Sans',sans-serif;font-weight:500;font-size:clamp(17px,1.4vw,20px);line-height:1.55;max-width:46ch;text-wrap:pretty">A programação completa dos dois dias sai nas próximas semanas. Siga <a href="https://www.instagram.com/papo.dom/" target="_blank" rel="noopener" style="color:#EBF06B;font-weight:600">@papo.dom</a> pra saber primeiro.</p>
+      </div>
+          <!-- Quando o link do Sympla existir, volte com o botão "Inscreva-se pelo Sympla" como <a href="…">. -->
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;margin-top:clamp(24px,3vw,40px)">
+            <div data-mag="" style="display:inline-flex">
+              <button type="button" onClick="{{ addCal }}" style="border:0;background:#EBF06B;color:#0A0A0A;padding:clamp(18px,2vw,26px) clamp(28px,3vw,44px);border-radius:999px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:85%;font-size:clamp(20px,1.8vw,26px);letter-spacing:-.01em;cursor:pointer;display:flex;align-items:center;gap:14px" style-hover="background:#FFFFFF">
+                <span>Adicionar à agenda</span><span aria-hidden="true">+</span>
+              </button>
+            </div>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Inscrições em breve pelo Sympla</span>
+          </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  root = React.createRef();
+  state = { now: Date.now(), wide: true };
+  componentDidMount() {
+    this.mq = matchMedia('(min-width: 960px)');
+    this.onMq = () => this.setState({ wide: this.mq.matches });
+    this.onMq(); this.mq.addEventListener('change', this.onMq);
+    this.iv = setInterval(() => { if (this.hasDate()) this.setState({ now: Date.now() }); }, 1000);
+    const w = () => { if (window.PapoFX && PapoFX.page) this.fx = PapoFX.page(this.root, (el, red) => this.run(el, red)); else this._t = setTimeout(w, 40); }; w();
+  }
+  componentDidUpdate(p) { if (this.fx && p.reduced !== this.props.reduced) this.fx.restart(); }
+  componentWillUnmount() { this.mq && this.mq.removeEventListener('change', this.onMq); clearTimeout(this._t); clearInterval(this.iv); this.fx && this.fx.kill(); }
+  // Início do evento (contagem regressiva): 27/10/2026, horário de Brasília. Início às 19h.
+  static EVENT_DATE = '2026-10-27T19:00:00-03:00';
+  eventDate() { return this.props.eventDate || Component.EVENT_DATE; }
+  hasDate() { return !isNaN(Date.parse(this.eventDate())); }
+  // Fim estimado do segundo dia (28/10, 23h). Depois disso a contagem dá lugar ao agradecimento.
+  static EVENT_END = '2026-10-28T23:00:00-03:00';
+  // Baixa um .ics com os dois dias (19h às 22h, horário de Brasília; o horário de término é estimado).
+  addCal = () => {
+    const ev = (d, s, e) => ['BEGIN:VEVENT', 'UID:papodom15-' + d + '@papodom', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]|\.\d{3}/g, ''),
+      'DTSTART:' + s, 'DTEND:' + e, 'SUMMARY:Papo Dom · Conexões — 15ª edição',
+      'DESCRIPTION:Evento de Comunicação Social da UniDomBosco. Uma década. Diferentes linguagens. Uma mesma conexão.',
+      'LOCATION:AEDB\\, Av. Cel. Prof. Antônio Esteves\\, 1 - Campo de Aviação\\, Resende - RJ\\, 27523-000', 'END:VEVENT'];
+    const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Papo Dom//PT-BR', 'CALSCALE:GREGORIAN',
+      ...ev('27', '20261027T220000Z', '20261028T010000Z'), ...ev('28', '20261028T220000Z', '20261029T010000Z'), 'END:VCALENDAR'].join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+    a.download = 'papo-dom-15.ics';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+  run(el, red) {
+    const cards = el.querySelectorAll('[data-card]'), mag = el.querySelector('[data-mag]');
+    if (red) { gsap.from(cards, { opacity: 0, duration: .5, stagger: .06 }); return; }
+    gsap.from(cards, { y: 50, opacity: 0, duration: .8, ease: 'back.out(1.6)', stagger: .08 });
+    const pulse = gsap.timeline({ repeat: -1, repeatDelay: .35, delay: 1 })
+      .to(cards, { scale: 1.035, duration: .12, ease: 'power2.out', stagger: .05 })
+      .to(cards, { scale: 1, duration: .5, ease: 'elastic.out(1,.4)', stagger: .05 }, .12);
+    ScrollTrigger.create({ trigger: cards[0], start: 'top bottom', end: 'bottom top', onToggle: s => s.isActive ? pulse.play() : pulse.pause() });
+    return PapoFX.magnetic(mag, .38);
+  }
+  renderVals() {
+    const d = Date.parse(this.eventDate()), has = !isNaN(d);
+    const diff = has ? Math.max(0, d - this.state.now) : 0;
+    const p = n => String(n).padStart(2, '0');
+    const D = Math.floor(diff / 864e5), H = Math.floor(diff / 36e5) % 24, M = Math.floor(diff / 6e4) % 60, S = Math.floor(diff / 1e3) % 60;
+    const end = Date.parse(Component.EVENT_END), now = this.state.now;
+    const phase = !has || now < d ? 'before' : now < end ? 'live' : 'after';
+    return {
+      root: this.root, hasDate: has, noDate: !has, addCal: this.addCal,
+      before: phase === 'before', notBefore: phase !== 'before',
+      phaseTitle: phase === 'live' ? 'Acontecendo agora' : 'Obrigado!',
+      phaseText: phase === 'live' ? 'O Papo Dom 15 está rolando na AEDB, a partir das 19h. Chega mais.' : 'O Papo Dom 15 já aconteceu. Obrigado a todo mundo que fez parte. Os registros estão no @papo.dom.',
+      progCols: this.state.wide ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)',
+      progPos: this.state.wide ? 'sticky' : 'static',
+      timerLabel: has ? `Faltam ${D} dias, ${H} horas, ${M} minutos` : 'Contagem regressiva — data a definir',
+      units: [{ label: 'Dias', val: p(D) }, { label: 'Horas', val: p(H) }, { label: 'Minutos', val: p(M) }, { label: 'Segundos', val: p(S) }],
+      fields: [
+        { k: 'Data', v: '27 e 28 de outubro', s: 'Terça e quarta-feira · 2026' },
+        { k: 'Horário', v: '19h', s: 'Nos dois dias' },
+        { k: 'Local', v: 'AEDB', s: 'Associação Educacional Dom Bosco' },
+        { k: 'Endereço', v: 'Av. Cel. Prof. Antônio Esteves, 1', s: 'Campo de Aviação · Resende, RJ · 27523-000' }
+      ].map(f => ({ ...f, has: !!f.v, none: !f.v })),
+
+    };
+  }
+}
+</script>
+</body>
+</html>
