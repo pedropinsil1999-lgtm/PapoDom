@@ -427,11 +427,13 @@
   function hhmm() { var d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
   CAT.T17 = {
     k: 2.4,
+    // pausa (fração da tela) antes da cena começar, para a seção de saída ser vista parada
+    pausa: .3,
     init: function (j) {
       var sp = j.spacer = document.createElement('div');
       sp.setAttribute('aria-hidden', 'true'); sp.style.cssText = 'position:relative;pointer-events:none';
       j.inn.parentNode.insertBefore(sp, j.inn);
-      j.sizeSp = function () { sp.style.height = Math.round(VH() * (CAT.T17.k - 1)) + 'px'; };
+      j.sizeSp = function () { sp.style.height = Math.round(VH() * (CAT.T17.k - 1 + CAT.T17.pausa)) + 'px'; };
       j.sizeSp(); ScrollTrigger.addEventListener('refreshInit', j.sizeSp);
       var MONO = "'IBM Plex Mono',monospace";
       // moldura da janela que se restaura (fica sob a barra de tarefas)
@@ -474,7 +476,7 @@
       j.cur.innerHTML = '<svg width="24" height="38" viewBox="0 0 12 19" shape-rendering="crispEdges" aria-hidden="true"><path d="M0 0V16L4 12L7 18L9 17L6 11H11Z" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="1"/></svg>';
       j.tw.appendChild(j.cur);
     },
-    range: function (j) { return { trigger: j.spacer, start: 'top bottom', endTrigger: j.inn, end: 'top top' }; },
+    range: function (j) { return { trigger: j.spacer, start: function () { return 'top bottom-=' + Math.round(VH() * CAT.T17.pausa); }, endTrigger: j.inn, end: 'top top' }; },
     begin: function (j) {
       var W = VW(), H = VH();
       j.fw.style.zIndex = j.inZ + 5; j.tw.style.zIndex = j.inZ + 6;
@@ -488,10 +490,13 @@
         var m = mb ? mb.getBoundingClientRect() : { left: r.right - 40, top: r.top + 12, width: 14, height: 14 };
         return { el: w, mb: mb, mbBg: mb ? mb.style.background : '', x: r.left, y: r.top + j.top0, w: r.width, h: r.height, mx: m.left + m.width / 2, my: m.top + m.height / 2 + j.top0 };
       });
-      // geometria da barra: botões à direita do "iniciar", antes da bandeja
-      var bw = Math.min(170, (W - 132 - 110 - 24) / 4 - 6);
+      // geometria da barra: um botão por janela (com o título dela) e, logo depois, o da seção nova
+      var nw = j.wins.length, bw = Math.min(170, (W - 132 - 110 - 24) / (nw + 1) - 6);
       j.btn = j.tb.map(function (b, i) {
-        var x = 132 + 12 + i * (bw + 6);
+        var t = i < 3 && j.wins[i] && j.wins[i].el.querySelector('div > span');
+        if (t) b.lastChild.textContent = t.textContent.trim();
+        b.style.display = i < 3 && i >= nw ? 'none' : 'flex';
+        var x = 132 + 12 + (i === 3 ? nw : i) * (bw + 6);
         b.style.left = x + 'px'; b.style.top = '5px'; b.style.width = bw + 'px'; b.style.height = (TB - 14) + 'px';
         return { x: x, y: H - TB + 5, w: bw, h: TB - 14 };
       });
@@ -513,7 +518,8 @@
     render: function (j, p) {
       j.p = p;
       var W = VW(), H = VH(), pan = j.top0 * io(seg(p, 0, .1));
-      gsap.set(j.inn, { y: -(1 - p) * H * CAT.T17.k });
+      // segura a seção nova no topo: ela está (1 − p) × comprimento do curso abaixo dele
+      gsap.set(j.inn, { y: -(1 - p) * (j.st ? j.st.end - j.st.start : H * CAT.T17.k) });
       gsap.set(j.out, { y: pan, force3D: true });
       // barra de tarefas sobe no começo e desce no fim
       j.task.style.transform = 'translate3d(0,' + ((1 - oc(seg(p, .0, .08)) + ic(seg(p, .9, 1))) * (TB + 4)).toFixed(1) + 'px,0)';
