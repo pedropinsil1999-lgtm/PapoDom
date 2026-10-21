@@ -33,4 +33,3 @@ Nomes, fotos, tipos e horários ficam em `js/programacao.js`: a seção Atraçõ
 ## Pendências (dependem de conteúdo)
 
 - **Sympla:** em `Evento.dc.html`, trocar "Inscrições em breve pelo Sympla" por um link `<a href="…">Inscreva-se pelo Sympla</a>` (há um comentário no ponto exato).
-- **Fotos da turma:** os dois espaços de foto em `Revista.dc.html`.

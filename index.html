@@ -858,7 +858,6 @@
   <script src="js/emendas.js"></script>
   <script src="js/programacao.js"></script>
   <script src="js/transicoes.js"></script>
-  <script src="js/image-slot.js"></script>
 <script>window.__resources = {"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"js/vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"js/vendor/react-dom.production.min.js"};</script>
 <script src="js/dc-runtime.js"></script>
 
@@ -1058,7 +1057,7 @@ class Component extends DCLogic {
       if (!this.cursorOn) { this.cursorOn = true; gsap.to([d, r], { opacity: 1, duration: .2 }); }
     };
     this.onOver = e => {
-      const hit = e.target.closest && e.target.closest('a,button,[data-cursor],[data-drag],[data-handle],image-slot');
+      const hit = e.target.closest && e.target.closest('a,button,[data-cursor],[data-drag],[data-handle]');
       gsap.to(r, { scale: hit ? 1.9 : 1, duration: .3, ease: 'power3.out' });
     };
     this.onLeave = () => { this.cursorOn = false; gsap.to([d, r], { opacity: 0, duration: .2 }); };
