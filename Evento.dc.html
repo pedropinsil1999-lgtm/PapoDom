@@ -78,7 +78,6 @@
             <ol aria-label="{{ d.aria }}" style="list-style:none;padding:0;margin:0">
               <sc-for list="{{ d.rows }}" as="r" hint-placeholder-count="4">
                 <li data-item="{{ r.id }}" style="position:relative;display:grid;grid-template-columns:{{ rowCols }};gap:{{ rowGap }};align-items:center;padding:16px 0;border-bottom:2px solid rgba(255,255,255,.45);opacity:{{ r.op }}">
-                  <sc-if value="{{ r.par }}"><span aria-hidden="true" style="position:absolute;left:{{ barLeft }};top:12px;bottom:12px;width:6px;border-radius:3px;background:#EBF06B"></span></sc-if>
                   <span style="font-family:'Silkscreen',monospace;font-size:{{ timeSize }};line-height:1;color:#EBF06B">{{ r.ini }}<small style="display:block;margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.06em;color:#FFFFFF;opacity:.85">até {{ r.fim }}</small></span>
                   <img src="{{ r.foto }}" alt="" loading="lazy" style="width:{{ avatar }};height:{{ avatar }};border-radius:50%;object-fit:cover;border:2px solid #FFFFFF;background:#FFFFFF">
                   <span style="min-width:0;display:flex;flex-direction:column;gap:8px">
@@ -87,7 +86,6 @@
                       <span style="border:2px solid #0A0A0A;border-radius:999px;padding:3px 9px;background:{{ r.bg }};color:#0A0A0A">{{ r.tipo }}</span>
                       <sc-if value="{{ r.live }}"><span style="display:inline-flex;align-items:center;gap:6px;color:#FFFFFF"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#FF2D55;animation:pd-live 1.2s ease-in-out infinite"></span>Ao vivo</span></sc-if>
                       <sc-if value="{{ r.past }}"><span style="opacity:.85">Já rolou</span></sc-if>
-                      <sc-if value="{{ r.par }}"><span style="color:#EBF06B">⇄ junto com {{ r.par }}</span></sc-if>
                     </span>
                   </span>
                 </li>
@@ -149,10 +147,9 @@ class Component extends DCLogic {
       its.sort((x, y) => x.i - y.i);
       const fixo = its.find(it => it.a.fixo);
       const rows = its.filter(it => !it.a.fixo).map(it => {
-        const o = its.find(k => k !== it && !k.a.fixo && k.i < it.f && it.i < k.f);
         return {
           id: it.a.id, nome: it.a.nome, foto: it.a.foto, tipo: P.tipo(it.a), bg: Component.COR[it.a.tipo] || '#FFFFFF',
-          ini: P.hora(it.s.ini), fim: P.hora(it.s.fim), par: o ? (o.a.curto || o.a.nome) : '',
+          ini: P.hora(it.s.ini), fim: P.hora(it.s.fim),
           live: it.st === 'aovivo', past: it.st === 'passou', op: it.st === 'passou' ? .6 : 1
         };
       });
@@ -164,7 +161,7 @@ class Component extends DCLogic {
     return {
       dias, cols: wide ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)',
       rowCols: wide ? '92px 64px minmax(0,1fr)' : '70px 52px minmax(0,1fr)', rowGap: wide ? '18px' : '12px',
-      avatar: wide ? '64px' : '52px', timeSize: wide ? '24px' : '18px', nameSize: wide ? '30px' : '22px', barLeft: wide ? '-20px' : '-12px'
+      avatar: wide ? '64px' : '52px', timeSize: wide ? '24px' : '18px', nameSize: wide ? '30px' : '22px'
     };
   }
   // Início do evento (contagem regressiva): 27/10/2026, horário de Brasília. Início às 19h.
