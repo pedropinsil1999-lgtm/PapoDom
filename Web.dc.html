@@ -64,7 +64,7 @@ class Component extends DCLogic {
     const v = document.createElement('video');
     v.crossOrigin = 'anonymous'; v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.preload = 'auto';
     v.setAttribute('playsinline', ''); v.setAttribute('muted', '');
-    v.src = Component.BG_SRC; this.bgv = v;
+    this.bgv = v; // o src só entra quando a seção estiver chegando perto da tela (o vídeo tem 1,2 MB)
     const ctx = cv.getContext('2d', { alpha: false });
     const size = () => { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 1.5); cv.width = Math.max(1, r.width * d | 0); cv.height = Math.max(1, r.height * d | 0); this._dirty = true; };
     size(); this._ro = new ResizeObserver(size); this._ro.observe(cv);
@@ -77,12 +77,11 @@ class Component extends DCLogic {
       ctx.drawImage(v, px + (ox - px) * 1.2, py + (oy - py) * 1.2, dw, dh);
     };
     this._vis = false;
-    this._io = new IntersectionObserver(es => { this._vis = es[0].isIntersecting; if (this._vis) { const p = v.play(); p && p.catch && p.catch(() => {}); } else v.pause(); }, { rootMargin: '200px' });
+    this._io = new IntersectionObserver(es => { this._vis = es[0].isIntersecting; if (this._vis) { if (!v.getAttribute('src')) v.src = Component.BG_SRC; const p = v.play(); p && p.catch && p.catch(() => {}); } else v.pause(); }, { rootMargin: '900px 0px' });
     this._io.observe(cv);
     if (v.requestVideoFrameCallback) { const f = () => { draw(); this._vf = v.requestVideoFrameCallback(f); }; this._vf = v.requestVideoFrameCallback(f); }
     else { this._tick = () => { if (this._vis) draw(); }; gsap.ticker.add(this._tick); }
     v.addEventListener('loadeddata', draw);
-    const p = v.play(); p && p.catch && p.catch(() => {});
   }
   componentDidMount() { this.startBg(); const w = () => { if (window.PapoFX && PapoFX.page) this.fx = PapoFX.page(this.root, (el, red) => this.run(el, red)); else this._t = setTimeout(w, 40); }; w(); }
   componentDidUpdate(p) { if (this.fx && p.reduced !== this.props.reduced) this.fx.restart(); }

@@ -35,7 +35,7 @@
       </div>
       <div data-reveal="" style="display:flex;flex-direction:column;gap:14px">
         <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Redes</span>
-        <a href="https://www.instagram.com/papo.dom/" target="_blank" rel="noopener" aria-label="Instagram @papo.dom (abre em nova aba)" style="display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1.5px solid #0A0A0A;padding-bottom:10px;text-decoration:none;color:#0A0A0A" style-hover="color:#7433E6">
+        <a href="https://www.instagram.com/papo.dom/" target="_blank" rel="noopener" aria-label="Instagram @papo.dom (abre em nova aba)" style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;border-bottom:1.5px solid #0A0A0A;padding:6px 0 10px;text-decoration:none;color:#0A0A0A" style-hover="color:#7433E6">
           <span style="font-family:'General Sans',sans-serif;font-weight:500;font-size:16px">Instagram</span>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600">@papo.dom ↗</span>
         </a>
@@ -65,11 +65,14 @@ class Component extends DCLogic {
     const eyesTl = gsap.timeline({ repeat: -1, repeatDelay: 2.8, delay: 1.4 })
       .to(eyes, { scaleY: .08, duration: .07, ease: 'power1.in' }).to(eyes, { scaleY: 1, duration: .12 })
       .to(eyes, { scaleY: .08, duration: .07, delay: .16 }).to(eyes, { scaleY: 1, duration: .12 });
-    ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', onToggle: s => [blink, eyesTl].forEach(t => s.isActive ? t.play() : t.pause()) });
+    // fora da tela a carinha para de piscar e de seguir o mouse (antes reagia ao mouse no site inteiro)
+    let vis = false;
+    ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', onToggle: s => { vis = s.isActive; [blink, eyesTl].forEach(t => vis ? t.play() : t.pause()); } });
     let wt;
-    const wink = setInterval(() => { this.setState({ eyes: ';' }); wt = setTimeout(() => this.setState({ eyes: ':' }), 700); }, 7500);
+    const wink = setInterval(() => { if (!vis) return; this.setState({ eyes: ';' }); wt = setTimeout(() => this.setState({ eyes: ':' }), 700); }, 7500);
     const xt = gsap.quickTo(face, 'x', { duration: .9, ease: 'power3' }), yt = gsap.quickTo(face, 'y', { duration: .9, ease: 'power3' }), rt = gsap.quickTo(face, 'rotation', { duration: .9, ease: 'power3' });
     const mv = e => {
+      if (!vis) return;
       const r = face.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
       xt(dx * .06); yt(dy * .06); rt(dx * .012);
       const inside = Math.abs(dx) < r.width / 2 && Math.abs(dy) < r.height / 2;

@@ -113,7 +113,11 @@ class Component extends DCLogic {
       gsap.to(screen, { opacity: .95, duration: .06, yoyo: true, repeat: -1, repeatDelay: 2.2 }),
       flash
     ];
-    ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', onToggle: s => loops.forEach(t => s.isActive ? t.play() : t.pause()) });
+    // fora da tela: pausa os efeitos e também o vídeo (para o som não continuar tocando em outra seção), exceto em tela cheia
+    ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', onToggle: s => {
+      loops.forEach(t => s.isActive ? t.play() : t.pause());
+      if (!s.isActive && this.video && !this.video.paused && !document.fullscreenElement) this.video.pause();
+    } });
   }
   jitter() { if (this.snow) this.snow.style.backgroundPosition = (Math.random() * 180 | 0) + 'px ' + (Math.random() * 180 | 0) + 'px'; }
   burst(mid) {

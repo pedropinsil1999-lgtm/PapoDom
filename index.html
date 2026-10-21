@@ -869,7 +869,7 @@
   <a href="#main" sc-camel-on-click="{{ skip }}" style="position:fixed;left:16px;top:-80px;z-index:9800;background:#FFFFFF;color:#0A0A0A;padding:12px 16px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600" style-focus="top:16px">Pular para o conteúdo</a>
 
   <header style="position:fixed;top:0;left:0;right:0;z-index:8600;display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:clamp(12px,2vw,20px) clamp(12px,2.4vw,28px);pointer-events:none">
-    <button type="button" sc-camel-on-click="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" aria-controls="menu" style-focus="transform:none" style="pointer-events:auto;display:flex;align-items:center;gap:10px;border:0;background:{{ navBg }};color:{{ navInk }};padding:10px 16px;border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transform:{{ navY }};transition:background-color .4s,color .4s,transform .35s cubic-bezier(.2,.8,.2,1)">
+    <button type="button" sc-camel-on-click="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" aria-controls="menu" style-focus="transform:none" style="pointer-events:auto;display:flex;align-items:center;gap:10px;min-height:44px;border:0;background:{{ navBg }};color:{{ navInk }};padding:10px 16px;border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transform:{{ navY }};transition:background-color .4s,color .4s,transform .35s cubic-bezier(.2,.8,.2,1)">
       <span>{{ menuLabel }}</span>
     </button>
   </header>
@@ -1108,7 +1108,15 @@ class Component extends DCLogic {
       ScrollTrigger.refresh();
       this.settled = true;
       const i = this.indexFromHash(location.hash);
-      if (i > 0) this.goTo(i, true);
+      if (i > 0) {
+        // Link direto (#secao): as posições das emendas só ficam certas depois que os espaçadores das
+        // transições longas são medidos. Pula, remede e pula de novo no primeiro segundo, a menos que a
+        // pessoa já tenha rolado ou usado o teclado.
+        this.goTo(i, true);
+        let mexeu = false; const off = () => { mexeu = true; };
+        ['wheel', 'touchstart', 'keydown'].forEach(ev => addEventListener(ev, off, { once: true, passive: true }));
+        [150, 500, 1200].forEach(ms => setTimeout(() => { if (!mexeu) { ScrollTrigger.refresh(); this.goTo(i, true); } }, ms));
+      }
     };
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(go, go);
   }
