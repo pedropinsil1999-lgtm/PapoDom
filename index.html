@@ -838,6 +838,8 @@
 </style>
   <style>
     html,body{margin:0;padding:0;background:#0A0A0A}
+    @keyframes pd-live{50%{transform:scale(1.35);box-shadow:0 0 0 6px rgba(255,45,85,0)}}
+    @media (prefers-reduced-motion: reduce){[style*="pd-live"]{animation:none!important}}
     body{font-family:'General Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
     *,*::before,*::after{box-sizing:border-box}
     h1,h2,h3,p,ol,ul{margin:0}
@@ -854,6 +856,7 @@
   <script src="js/vendor/lenis.min.js"></script>
   <script src="js/papo-fx.js"></script>
   <script src="js/emendas.js"></script>
+  <script src="js/programacao.js"></script>
   <script src="js/transicoes.js"></script>
   <script src="js/image-slot.js"></script>
 <script>window.__resources = {"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"js/vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"js/vendor/react-dom.production.min.js"};</script>
@@ -1025,6 +1028,7 @@ class Component extends DCLogic {
   initLenis() {
     if (this.lenis || this.state.reduced || !window.Lenis || matchMedia('(pointer: coarse)').matches) return;
     this.lenis = new Lenis({ lerp: .085, smoothWheel: true, wheelMultiplier: .9, touchMultiplier: 1.4 });
+    PapoFX.lenis = this.lenis; // usado para rolar até um ponto (ex.: Atrações → horário no cronograma)
     this.lenis.on('scroll', ScrollTrigger.update);
     this.raf = t => this.lenis && this.lenis.raf(t * 1000);
     gsap.ticker.add(this.raf); gsap.ticker.lagSmoothing(0);
@@ -1032,7 +1036,7 @@ class Component extends DCLogic {
   killLenis() {
     if (!this.lenis) return;
     window.gsap && gsap.ticker.remove(this.raf);
-    this.lenis.destroy(); this.lenis = null;
+    this.lenis.destroy(); this.lenis = null; if (window.PapoFX) PapoFX.lenis = null;
   }
   initGrain() {
     const g = this.grainRef.current; if (!g) return;

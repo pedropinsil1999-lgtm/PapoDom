@@ -59,16 +59,98 @@
   </section>
 
   <section aria-labelledby="prog-title" style="padding:clamp(40px,5vw,72px) clamp(20px,5vw,72px) clamp(72px,8vw,120px)">
-    <div style="max-width:1320px;margin:0 auto;display:grid;grid-template-columns:{{ progCols }};gap:clamp(32px,5vw,80px)">
-      <div style="position:{{ progPos }};top:clamp(88px,12vh,120px);align-self:start;display:flex;flex-direction:column;gap:18px">
-        <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#EBF06B">Cronograma do dia</p>
-        <h2 id="prog-title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:80%;font-size:clamp(40px,5vw,80px);line-height:.92;letter-spacing:-.035em">Programação</h2>
+    <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(24px,3vw,40px)">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 32px">
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#EBF06B">Cronograma do dia</p>
+          <h2 id="prog-title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:80%;font-size:clamp(40px,5vw,80px);line-height:.92;letter-spacing:-.035em">Programação</h2>
+        </div>
+        <div role="tablist" aria-label="Escolha o dia" style="display:flex;gap:10px">
+          <sc-for list="{{ days }}" as="d" hint-placeholder-count="2">
+            <button type="button" role="tab" aria-selected="{{ d.on }}" aria-controls="prog-dia" onClick="{{ d.pick }}" style="display:flex;align-items:baseline;gap:10px;border:2px solid #FFFFFF;border-radius:999px;padding:12px 20px;background:{{ d.bg }};color:{{ d.fg }};cursor:pointer;transition:background-color .2s,color .2s" style-hover="border-color:#EBF06B">
+              <span style="font-family:'Silkscreen',monospace;font-size:20px;line-height:1">{{ d.rotulo }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase">{{ d.semana }}</span>
+            </button>
+          </sc-for>
+        </div>
       </div>
-      <div style="display:flex;flex-direction:column;min-width:0">
-      <!-- Quando a programação sair, troque este bloco pela lista de atividades (horário + título + quem). -->
-      <div data-reveal="" style="border-top:2px solid #FFFFFF;padding-top:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:12px">
-        <span style="font-family:'Silkscreen',monospace;font-size:clamp(24px,2.6vw,36px);line-height:1.1;color:#EBF06B">Em breve</span>
-        <p style="font-family:'General Sans',sans-serif;font-weight:500;font-size:clamp(17px,1.4vw,20px);line-height:1.55;max-width:46ch;text-wrap:pretty">A programação completa dos dois dias sai nas próximas semanas. Siga <a href="https://www.instagram.com/papo.dom/" target="_blank" rel="noopener" style="color:#EBF06B;font-weight:600">@papo.dom</a> pra saber primeiro.</p>
+
+      <div id="prog-dia" data-prog="" role="tabpanel" aria-label="{{ dayLabel }}" style="display:flex;flex-direction:column;gap:clamp(18px,2vw,24px);scroll-margin-top:110px">
+        <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+          <!-- linha do tempo: 19h às 21h30; atividades simultâneas ficam em faixas diferentes -->
+          <div style="position:relative;border:2px solid #FFFFFF;border-radius:22px;padding:58px 24px 24px">
+            <ol style="list-style:none;padding:0;margin:0;position:relative;height:{{ tlH }}">
+              <sc-for list="{{ ticks }}" as="t" hint-placeholder-count="6">
+                <li aria-hidden="true" style="position:absolute;left:{{ t.left }};top:-38px;bottom:0;border-left:1px dashed rgba(255,255,255,.3)">
+                  <span style="position:absolute;top:0;left:0;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.08em;white-space:nowrap">{{ t.label }}</span>
+                </li>
+              </sc-for>
+              <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="4">
+                <li style="position:absolute;left:{{ b.left }};width:{{ b.width }};top:{{ b.top }};height:{{ b.h }};padding-right:8px">
+                  <button type="button" data-item="{{ b.id }}" onClick="{{ b.pick }}" aria-pressed="{{ b.sel }}" aria-label="{{ b.aria }}" style="position:relative;width:100%;height:100%;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;border:2px solid #0A0A0A;border-radius:14px;background:{{ b.bg }};color:{{ b.fg }};box-shadow:{{ b.shadow }};transform:{{ b.tf }};outline:{{ b.ring }};outline-offset:3px;opacity:{{ b.op }};cursor:pointer;text-align:left;font:inherit;overflow:hidden;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s" style-hover="transform:translate(-3px,-3px);box-shadow:7px 7px 0 #0A0A0A">
+                    <img src="{{ b.foto }}" alt="" loading="lazy" style="flex:none;width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #0A0A0A;background:#FFFFFF">
+                    <span style="min-width:0;display:flex;flex-direction:column;gap:4px">
+                      <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:85%;font-size:18px;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.nome }}</span>
+                      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.meta }}</span>
+                    </span>
+                    <sc-if value="{{ b.live }}"><span aria-hidden="true" style="position:absolute;top:8px;right:8px;width:10px;height:10px;border-radius:50%;background:#FF2D55;box-shadow:0 0 0 3px rgba(255,45,85,.3);animation:pd-live 1.2s ease-in-out infinite"></span></sc-if>
+                  </button>
+                </li>
+              </sc-for>
+              <sc-if value="{{ showNow }}">
+                <li aria-hidden="true" style="position:absolute;left:{{ nowLeft }};top:-44px;bottom:-10px;width:2px;background:#EBF06B;box-shadow:0 0 12px #EBF06B;pointer-events:none;z-index:2">
+                  <span style="position:absolute;top:-4px;left:50%;transform:translate(-50%,-100%);background:#EBF06B;color:#0A0A0A;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap">Agora · {{ nowLabel }}</span>
+                </li>
+              </sc-if>
+            </ol>
+          </div>
+
+          <!-- ficha da atividade selecionada -->
+          <div aria-live="polite" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:clamp(16px,2vw,28px);align-items:center;background:#FFFFFF;color:#0A0A0A;border:2px solid #0A0A0A;border-radius:22px;box-shadow:8px 8px 0 #0A0A0A;padding:clamp(14px,1.6vw,20px)">
+            <img src="{{ sel.foto }}" alt="{{ sel.alt }}" style="width:clamp(96px,9vw,128px);aspect-ratio:1;border-radius:14px;object-fit:cover;border:2px solid #0A0A0A">
+            <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+              <span style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase">
+                <span style="background:{{ sel.bg }};color:{{ sel.fg }};border:2px solid #0A0A0A;border-radius:999px;padding:4px 10px">{{ sel.tipo }}</span>
+                <span style="color:{{ sel.stColor }}">{{ sel.status }}</span>
+              </span>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-stretch:80%;font-size:clamp(30px,3.2vw,46px);line-height:.95;letter-spacing:-.03em">{{ sel.nome }}</h3>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.06em">{{ sel.quando }}</span>
+            </div>
+            <button type="button" onClick="{{ sel.cal }}" aria-label="{{ sel.calLabel }}" style="flex:none;border:2px solid #0A0A0A;background:#EBF06B;color:#0A0A0A;border-radius:999px;padding:14px 20px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:85%;font-size:18px;cursor:pointer;white-space:nowrap;box-shadow:4px 4px 0 #0A0A0A;transition:transform .2s,box-shadow .2s" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #0A0A0A">+ Agenda</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+          <!-- celular: lista em ordem de horário -->
+          <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
+              <li data-item="{{ r.id }}" style="display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:stretch;opacity:{{ r.op }}">
+                <div style="display:flex;flex-direction:column;gap:4px;padding-top:12px">
+                  <span style="font-family:'Silkscreen',monospace;font-size:17px;line-height:1">{{ r.ini }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.06em;opacity:.85">{{ r.fim }}</span>
+                </div>
+                <div style="position:relative;display:flex;gap:12px;align-items:center;background:{{ r.bg }};color:{{ r.fg }};border:2px solid #0A0A0A;border-radius:14px;box-shadow:4px 4px 0 #0A0A0A;padding:10px">
+                  <img src="{{ r.foto }}" alt="" loading="lazy" style="flex:none;width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #0A0A0A;background:#FFFFFF">
+                  <div style="min-width:0;flex:1;display:flex;flex-direction:column;gap:4px">
+                    <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:85%;font-size:19px;line-height:1.05">{{ r.nome }}</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase">{{ r.meta }}</span>
+                    <sc-if value="{{ r.overlap }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.04em;opacity:.8">⇄ ao mesmo tempo que {{ r.overlap }}</span></sc-if>
+                  </div>
+                  <button type="button" onClick="{{ r.cal }}" aria-label="{{ r.calLabel }}" style="flex:none;width:42px;height:42px;border-radius:50%;border:2px solid #0A0A0A;background:#FFFFFF;color:#0A0A0A;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;line-height:1;cursor:pointer">+</button>
+                  <sc-if value="{{ r.live }}"><span aria-hidden="true" style="position:absolute;top:8px;right:60px;width:10px;height:10px;border-radius:50%;background:#FF2D55;box-shadow:0 0 0 3px rgba(255,45,85,.3);animation:pd-live 1.2s ease-in-out infinite"></span></sc-if>
+                </div>
+              </li>
+            </sc-for>
+          </ol>
+        </sc-if>
+
+        <div aria-hidden="true" style="display:flex;flex-wrap:wrap;gap:10px 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase">
+          <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#FFFFFF;border-radius:4px"></span>Atração</span>
+          <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#EBF06B;border-radius:4px"></span>Oficina</span>
+          <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:#FF4D1A;border-radius:4px"></span>Dança</span>
+          <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border:2px solid #0A0A0A;background:repeating-linear-gradient(135deg,#C92A74 0 4px,#9E1F5A 4px 8px);border-radius:4px"></span>Estande</span>
+          <span style="opacity:.85">{{ hint }}</span>
+        </div>
       </div>
           <!-- Quando o link do Sympla existir, volte com o botão "Inscreva-se pelo Sympla" como <a href="…">. -->
           <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;margin-top:clamp(24px,3vw,40px)">
@@ -80,8 +162,6 @@
             <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Inscrições em breve pelo Sympla</span>
           </div>
       </div>
-
-    </div>
   </section>
 
 </div>
@@ -89,16 +169,106 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   root = React.createRef();
-  state = { now: Date.now(), wide: true };
+  // dia aberto por padrão: 28 a partir de 28/10 (horário de Brasília), senão 27
+  state = { now: Date.now(), wide: true, day: Date.now() >= Date.parse('2026-10-28T00:00:00-03:00') ? '28' : '27', sel: null };
   componentDidMount() {
     this.mq = matchMedia('(min-width: 960px)');
     this.onMq = () => this.setState({ wide: this.mq.matches });
     this.onMq(); this.mq.addEventListener('change', this.onMq);
     this.iv = setInterval(() => { if (this.hasDate()) this.setState({ now: Date.now() }); }, 1000);
     const w = () => { if (window.PapoFX && PapoFX.page) this.fx = PapoFX.page(this.root, (el, red) => this.run(el, red)); else this._t = setTimeout(w, 40); }; w();
+    window.addEventListener('papo:programacao', this.onShow);
   }
   componentDidUpdate(p) { if (this.fx && p.reduced !== this.props.reduced) this.fx.restart(); }
-  componentWillUnmount() { this.mq && this.mq.removeEventListener('change', this.onMq); clearTimeout(this._t); clearInterval(this.iv); this.fx && this.fx.kill(); }
+  componentWillUnmount() { this.mq && this.mq.removeEventListener('change', this.onMq); clearTimeout(this._t); clearTimeout(this._fl); clearInterval(this.iv); this.fx && this.fx.kill(); window.removeEventListener('papo:programacao', this.onShow); }
+  // Atrações → cronograma: abre o dia da pessoa, seleciona, rola até a programação e destaca a atividade
+  onShow = e => {
+    const P = window.PAPO_PROG, a = P && P.atracoes.find(x => x.id === (e.detail && e.detail.id)); if (!a) return;
+    const day = a.slots.some(s => s.dia === this.state.day) ? this.state.day : a.slots[0].dia;
+    this.setState({ day, sel: a.id }, () => {
+      const el = this.root.current, box = el && el.querySelector('[data-prog]'); if (!box) return;
+      if (PapoFX.lenis) PapoFX.lenis.scrollTo(box, { offset: -110, duration: 1.4, force: true });
+      else box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      clearTimeout(this._fl);
+      this._fl = setTimeout(() => {
+        const it = el.querySelector('[data-item="' + a.id + '"]');
+        if (it && window.gsap) gsap.fromTo(it, { scale: 1 }, { scale: 1.05, duration: .16, yoyo: true, repeat: 3, ease: 'power1.inOut', clearProps: 'scale' });
+      }, 1300);
+    });
+  };
+  // cores por tipo de atividade
+  static COR = { '': ['#FFFFFF', '#0A0A0A'], Oficina: ['#EBF06B', '#0A0A0A'], 'Dança': ['#FF4D1A', '#0A0A0A'], Estande: ['repeating-linear-gradient(135deg,#C92A74 0 10px,#9E1F5A 10px 20px)', '#FFFFFF'] };
+  cor(a) { return Component.COR[a.tipo || ''] || Component.COR['']; }
+  // "começa em…" para a ficha
+  falta(ms) {
+    const m = Math.round(ms / 6e4), d = Math.floor(m / 1440);
+    if (d >= 1) return 'Começa em ' + d + (d > 1 ? ' dias' : ' dia');
+    return m >= 60 ? 'Começa em ' + Math.floor(m / 60) + ' h ' + String(m % 60).padStart(2, '0') + ' min' : 'Começa em ' + Math.max(1, m) + ' min';
+  }
+  prog() {
+    const P = window.PAPO_PROG; if (!P) return { days: [], blocks: [], rows: [], ticks: [], sel: {}, tlH: '0px' };
+    const now = this.state.now, day = this.state.day, E = P.eixo, span = E.fim - E.ini, LANE = 76, GAP = 14;
+    const pct = m => ((m - E.ini) / span * 100).toFixed(3) + '%';
+    // atividades do dia (um item por slot), em ordem de horário; estande vai para a faixa de baixo
+    const its = [];
+    P.atracoes.forEach(a => a.slots.forEach(s => { if (s.dia === day) its.push({ a, s, i: P.min(s.ini), f: P.min(s.fim), st: P.estado(s, now) }); }));
+    its.sort((x, y) => x.i - y.i);
+    const lanesEnd = [];
+    its.forEach(it => {
+      if (it.a.fixo) return;
+      let l = lanesEnd.findIndex(end => end <= it.i); if (l < 0) { l = lanesEnd.length; lanesEnd.push(0); }
+      lanesEnd[l] = it.f; it.lane = l;
+    });
+    const nTalk = Math.max(1, lanesEnd.length);
+    its.forEach(it => { if (it.a.fixo) it.lane = nTalk; });
+    const nLanes = nTalk + (its.some(it => it.a.fixo) ? 1 : 0);
+    const live = its.find(it => it.st === 'aovivo' && !it.a.fixo) || its.find(it => it.st === 'aovivo');
+    const selId = its.some(it => it.a.id === this.state.sel) ? this.state.sel : (live || its.find(it => !it.a.fixo) || its[0] || {}).a?.id;
+    const meta = it => (it.a.fixo ? 'Estande · o tempo todo · ' : (it.a.tipo ? it.a.tipo + ' · ' : '')) + P.faixa(it.s) + (it.st === 'aovivo' ? ' · ao vivo' : it.st === 'passou' ? ' · já rolou' : '');
+    const d = P.dia(day), dayTxt = d.semana + ' ' + d.rotulo;
+    const aria = it => it.a.nome + ', ' + (it.a.tipo ? it.a.tipo.toLowerCase() + ', ' : '') + P.hora(it.s.ini) + ' às ' + P.hora(it.s.fim) + ', ' + dayTxt + (it.st === 'aovivo' ? ', acontecendo agora' : it.st === 'passou' ? ', já aconteceu' : '');
+    const cal = (a, s) => () => P.baixar('papo-dom-' + a.id + '.ics', P.ics(a, [s]));
+    const blocks = its.map(it => {
+      const on = it.a.id === selId, c = this.cor(it.a);
+      return {
+        id: it.a.id, nome: it.a.nome, foto: it.a.foto, meta: meta(it), aria: aria(it), sel: on, live: it.st === 'aovivo',
+        left: pct(it.i), width: ((it.f - it.i) / span * 100).toFixed(3) + '%', top: it.lane * (LANE + GAP) + 'px', h: LANE + 'px',
+        bg: c[0], fg: c[1], op: it.st === 'passou' ? .55 : 1,
+        tf: on ? 'translate(-3px,-3px)' : 'none', shadow: on ? '7px 7px 0 #0A0A0A' : '4px 4px 0 #0A0A0A', ring: on ? '3px solid #EBF06B' : '0 solid transparent',
+        pick: () => this.setState({ sel: it.a.id })
+      };
+    });
+    // celular: ordem de horário, estande primeiro; avisa quando duas atividades se sobrepõem
+    const rows = its.slice().sort((x, y) => (y.a.fixo ? 1 : 0) - (x.a.fixo ? 1 : 0) || x.i - y.i).map(it => {
+      const c = this.cor(it.a), other = it.a.fixo ? null : its.find(o => o !== it && !o.a.fixo && o.i < it.f && it.i < o.f);
+      return {
+        id: it.a.id, nome: it.a.nome, foto: it.a.foto, meta: meta(it), live: it.st === 'aovivo', op: it.st === 'passou' ? .55 : 1,
+        ini: it.a.fixo ? 'Todo' : P.hora(it.s.ini), fim: it.a.fixo ? 'o tempo' : 'até ' + P.hora(it.s.fim),
+        overlap: other ? (other.a.curto || other.a.nome) : '', bg: c[0], fg: c[1],
+        cal: cal(it.a, it.s), calLabel: 'Adicionar ' + it.a.nome + ' à agenda'
+      };
+    });
+    const ticks = [];
+    for (let m = E.ini; m <= E.fim; m += 30) ticks.push({ left: pct(m), label: P.hora(String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0')) });
+    // linha "agora": só no dia aberto, durante o horário do eixo
+    const z = new Date(now + (new Date().getTimezoneOffset() - 180) * 6e4), today = z.getFullYear() + '-' + String(z.getMonth() + 1).padStart(2, '0') + '-' + String(z.getDate()).padStart(2, '0');
+    const nm = z.getHours() * 60 + z.getMinutes(), showNow = today === d.data && nm >= E.ini && nm <= E.fim;
+    const S = its.find(it => it.a.id === selId), sa = S ? S.a : null, sc = sa ? this.cor(sa) : Component.COR[''];
+    const sel = sa ? {
+      foto: sa.foto, alt: 'Foto de ' + sa.nome, nome: sa.nome, tipo: P.tipo(sa), bg: sa.tipo === 'Estande' ? '#C92A74' : sc[0], fg: sc[1],
+      quando: dayTxt + ' · ' + P.hora(S.s.ini) + ' às ' + P.hora(S.s.fim),
+      status: S.st === 'aovivo' ? '● Ao vivo agora' : S.st === 'passou' ? 'Já rolou' : this.falta(P.quando(S.s).ini - now),
+      stColor: S.st === 'aovivo' ? '#E0103C' : '#7433E6',
+      cal: cal(sa, S.s), calLabel: 'Adicionar ' + sa.nome + ' à agenda'
+    } : {};
+    return {
+      days: P.dias.map(x => ({ rotulo: x.rotulo, semana: x.semana, on: x.id === day, bg: x.id === day ? '#EBF06B' : 'transparent', fg: x.id === day ? '#0A0A0A' : '#FFFFFF', pick: () => this.setState({ day: x.id, sel: null }) })),
+      dayLabel: 'Programação de ' + dayTxt, blocks, rows, ticks, sel, showNow,
+      nowLeft: pct(nm), nowLabel: P.hora(String(z.getHours()).padStart(2, '0') + ':' + String(z.getMinutes()).padStart(2, '0')).replace(/h$/, 'h00'),
+      tlH: (nLanes * LANE + (nLanes - 1) * GAP) + 'px',
+      hint: this.state.wide ? 'Toque numa atividade para ver detalhes' : 'Toque em + para salvar na agenda'
+    };
+  }
   // Início do evento (contagem regressiva): 27/10/2026, horário de Brasília. Início às 19h.
   static EVENT_DATE = '2026-10-27T19:00:00-03:00';
   eventDate() { return this.props.eventDate || Component.EVENT_DATE; }
@@ -137,12 +307,11 @@ class Component extends DCLogic {
     const end = Date.parse(Component.EVENT_END), now = this.state.now;
     const phase = !has || now < d ? 'before' : now < end ? 'live' : 'after';
     return {
+      ...this.prog(), wide: this.state.wide, narrow: !this.state.wide,
       root: this.root, hasDate: has, noDate: !has, addCal: this.addCal,
       before: phase === 'before', notBefore: phase !== 'before',
       phaseTitle: phase === 'live' ? 'Acontecendo agora' : 'Obrigado!',
       phaseText: phase === 'live' ? 'O Papo Dom 15 está rolando na AEDB, a partir das 19h. Chega mais.' : 'O Papo Dom 15 já aconteceu. Obrigado a todo mundo que fez parte. Os registros estão no @papo.dom.',
-      progCols: this.state.wide ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)',
-      progPos: this.state.wide ? 'sticky' : 'static',
       timerLabel: has ? `Faltam ${D} dias, ${H} horas, ${M} minutos` : 'Contagem regressiva — data a definir',
       units: [{ label: 'Dias', val: p(D) }, { label: 'Horas', val: p(H) }, { label: 'Minutos', val: p(M) }, { label: 'Segundos', val: p(S) }],
       fields: [

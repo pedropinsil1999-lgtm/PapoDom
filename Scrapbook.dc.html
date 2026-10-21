@@ -13,7 +13,7 @@
       <div style="display:flex;flex-direction:column;gap:22px">
         <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase">07 · Atrações</p>
         <h2 id="scrap-title" data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-stretch:78%;font-size:clamp(52px,8vw,132px);line-height:.88;letter-spacing:-.045em;text-wrap:balance">Atrações.</h2>
-        <p data-reveal="" style="font-family:'General Sans',sans-serif;font-weight:500;font-size:clamp(18px,1.5vw,22px);line-height:1.55;max-width:40ch;text-wrap:pretty">Palestras, workshops e bate-papos com quem vive a comunicação. Conheça as pessoas convidadas desta edição.</p>
+        <p data-reveal="" style="font-family:'General Sans',sans-serif;font-weight:500;font-size:clamp(18px,1.5vw,22px);line-height:1.55;max-width:40ch;text-wrap:pretty">Oito atrações em dois dias: palestras, oficina, dança e estande com quem vive a comunicação. Toque numa foto para ver o horário no cronograma.</p>
       </div>
       <div data-reveal="" style="width:min(380px,76%);justify-self:start"><dc-import name="Logo" variant="scrap" hint-size="100%,170px"></dc-import></div>
     </div>
@@ -21,17 +21,36 @@
 
   <section aria-label="Atrações convidadas" style="padding:0 clamp(20px,5vw,72px) clamp(56px,7vw,100px)">
     <div style="position:relative;max-width:1320px;margin:0 auto">
-      <ul style="list-style:none;padding:clamp(28px,4vw,56px) clamp(8px,2vw,24px);margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:clamp(36px,4vw,56px) clamp(20px,3vw,40px)">
-        <sc-for list="{{ guests }}" as="g" hint-placeholder-count="4">
-          <li data-card="" aria-label="{{ g.aria }}" onMouseEnter="{{ g.enter }}" onMouseLeave="{{ leave }}" style="position:relative;display:flex;justify-content:center">
-            <div style="position:relative;width:100%;max-width:300px;transform:rotate({{ g.rot }});background:#FFFFFF;color:#0A0A0A;padding:7% 7% 8%;box-shadow:0 16px 36px rgba(0,0,0,.28);display:flex;flex-direction:column;gap:14px">
-              <span aria-hidden="true" style="position:absolute;left:{{ g.tapeL }};top:-12px;width:38%;height:24px;background:#F6BCD6;transform:rotate({{ g.tapeR }})"></span>
-              <div aria-hidden="true" style="aspect-ratio:1;background:#E9E3DC;display:grid;place-items:center;font-family:'Silkscreen',monospace;font-size:clamp(56px,6vw,88px);color:#F6BCD6">?</div>
-              <div style="display:flex;flex-direction:column;gap:10px">
-                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#C92A74">{{ g.kind }}</span>
-                <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:85%;font-size:22px;line-height:1.1">Convidado em breve</span>
+      <!-- filtro por dia, como etiquetas de papel -->
+      <div role="group" aria-label="Filtrar atrações por dia" style="display:flex;flex-wrap:wrap;gap:12px;padding:0 clamp(8px,2vw,24px);margin-left:clamp(48px,6vw,96px)">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+          <button type="button" onClick="{{ f.pick }}" aria-pressed="{{ f.on }}" style="transform:rotate({{ f.rot }});border:0;background:{{ f.bg }};color:{{ f.fg }};padding:11px 16px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 8px 18px rgba(0,0,0,.2);cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1),background-color .2s,color .2s" style-hover="transform:rotate(0deg) translateY(-2px)">{{ f.label }} <span style="opacity:.6">{{ f.n }}</span></button>
+        </sc-for>
+      </div>
+
+      <ul style="list-style:none;padding:clamp(28px,4vw,56px) clamp(8px,2vw,24px);margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:clamp(36px,4vw,56px) clamp(20px,3vw,40px)">
+        <sc-for list="{{ guests }}" as="g" hint-placeholder-count="8">
+          <li data-card="" onMouseEnter="{{ g.enter }}" onMouseLeave="{{ leave }}" style="position:relative;display:{{ g.display }};justify-content:center">
+            <button type="button" onClick="{{ g.go }}" aria-label="{{ g.aria }}" style="position:relative;width:100%;max-width:300px;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer">
+              <div style="position:relative;transform:rotate({{ g.rot }});background:#FFFFFF;color:#0A0A0A;padding:7% 7% 8%;box-shadow:0 16px 36px rgba(0,0,0,.28);display:flex;flex-direction:column;gap:12px">
+                <span aria-hidden="true" style="position:absolute;left:{{ g.tapeL }};top:-12px;width:38%;height:24px;background:#F6BCD6;transform:rotate({{ g.tapeR }});z-index:1"></span>
+                <div style="position:relative;aspect-ratio:1;background:#E9E3DC;overflow:hidden">
+                  <img src="{{ g.foto }}" alt="{{ g.alt }}" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:cover;filter:{{ g.filter }}">
+                  <sc-if value="{{ g.live }}">
+                    <span style="position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:6px;background:#FF2D55;color:#FFFFFF;border-radius:999px;padding:5px 10px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:#FFFFFF;animation:pd-live 1.2s ease-in-out infinite"></span>Ao vivo</span>
+                  </sc-if>
+                  <sc-if value="{{ g.past }}">
+                    <span style="position:absolute;bottom:12px;right:10px;transform:rotate(-8deg);border:3px solid #C92A74;color:#C92A74;background:rgba(255,255,255,.85);padding:4px 10px;font-family:'Silkscreen',monospace;font-size:14px;line-height:1">Já rolou</span>
+                  </sc-if>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#C92A74">{{ g.kind }}</span>
+                  <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-stretch:85%;font-size:24px;line-height:1.05;letter-spacing:-.01em">{{ g.nome }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.04em">{{ g.quando }}</span>
+                  <span aria-hidden="true" style="margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#C92A74">Ver no cronograma →</span>
+                </div>
               </div>
-            </div>
+            </button>
           </li>
         </sc-for>
       </ul>
@@ -55,17 +74,29 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  // Atrações: troque kind e, quando houver, substitua os blocos cinza por nome e descrição.
-  static GUESTS = [
-    { kind: 'Palestra', rot: '-3deg', tapeL: '32%', tapeR: '-3deg', a: '78%', b: '52%' },
-    { kind: 'Workshop', rot: '2deg', tapeL: '24%', tapeR: '5deg', a: '66%', b: '44%' },
-    { kind: 'Bate-papo', rot: '-1.5deg', tapeL: '36%', tapeR: '-6deg', a: '72%', b: '48%' },
-    { kind: 'Palestra', rot: '3deg', tapeL: '28%', tapeR: '3deg', a: '62%', b: '40%' }
+  // Atrações vêm de js/programacao.js (nome, foto, horários). Aqui só o jeito de colar no álbum.
+  static LOOK = [
+    { rot: '-3deg', tapeL: '32%', tapeR: '-3deg' }, { rot: '2deg', tapeL: '24%', tapeR: '5deg' },
+    { rot: '-1.5deg', tapeL: '36%', tapeR: '-6deg' }, { rot: '3deg', tapeL: '28%', tapeR: '3deg' },
+    { rot: '-2deg', tapeL: '30%', tapeR: '4deg' }, { rot: '1.5deg', tapeL: '34%', tapeR: '-4deg' },
+    { rot: '-2.5deg', tapeL: '26%', tapeR: '6deg' }, { rot: '2.5deg', tapeL: '33%', tapeR: '-2deg' }
   ];
   root = React.createRef();
-  componentDidMount() { const w = () => { if (window.PapoFX && PapoFX.page) this.fx = PapoFX.page(this.root, (el, red) => this.run(el, red)); else this._t = setTimeout(w, 40); }; w(); }
-  componentDidUpdate(p) { if (this.fx && p.reduced !== this.props.reduced) this.fx.restart(); }
-  componentWillUnmount() { clearTimeout(this._t); this.fx && this.fx.kill(); }
+  state = { day: 'todos', now: Date.now() };
+  componentDidMount() {
+    const w = () => { if (window.PapoFX && PapoFX.page) this.fx = PapoFX.page(this.root, (el, red) => this.run(el, red)); else this._t = setTimeout(w, 40); }; w();
+    this.iv = setInterval(() => this.setState({ now: Date.now() }), 30000); // selos "ao vivo" / "já rolou"
+  }
+  componentDidUpdate(p) {
+    if (this.fx && p.reduced !== this.props.reduced) this.fx.restart();
+    // troca de filtro: as polaroids que ficam entram de novo, em cascata
+    if (this._lastDay !== undefined && this._lastDay !== this.state.day && window.gsap) {
+      const el = this.root.current, vis = el ? [...el.querySelectorAll('[data-card]')].filter(c => c.style.display !== 'none') : [];
+      if (vis.length) gsap.fromTo(vis, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .45, ease: 'power3.out', stagger: .05, clearProps: 'transform,opacity' });
+    }
+    this._lastDay = this.state.day;
+  }
+  componentWillUnmount() { clearTimeout(this._t); clearInterval(this.iv); this.fx && this.fx.kill(); }
   run(el, red) {
     const cards = el.querySelectorAll('[data-card]');
     gsap.from(cards, { y: red ? 0 : 40, opacity: 0, duration: red ? .4 : .7, ease: 'power3.out', stagger: .08, scrollTrigger: { trigger: cards[0], start: 'top 85%' } });
@@ -87,7 +118,26 @@ class Component extends DCLogic {
     gsap.to(el.querySelector('[data-blur]'), { autoAlpha: 0, duration: .3, ease: 'power2.out', overwrite: true });
   };
   renderVals() {
-    return { root: this.root, leave: this.leave, guests: Component.GUESTS.map((g, i) => ({ ...g, aria: g.kind + ' — convidado em breve', enter: () => this.enter(i) })) };
+    const P = window.PAPO_PROG, list = P ? P.atracoes : [], day = this.state.day, now = this.state.now;
+    const inDay = (a, d) => d === 'todos' || a.slots.some(s => s.dia === d);
+    const opts = [{ id: 'todos', label: 'Todos' }].concat(P ? P.dias.map(d => ({ id: d.id, label: d.semana + ' · ' + d.rotulo })) : []);
+    return {
+      root: this.root, leave: this.leave,
+      filters: opts.map((o, i) => ({
+        label: o.label, n: list.filter(a => inDay(a, o.id)).length, on: o.id === day, rot: ['-2deg', '1.5deg', '-1deg'][i % 3],
+        bg: o.id === day ? '#0A0A0A' : '#FFFFFF', fg: o.id === day ? '#FFFFFF' : '#0A0A0A', pick: () => this.setState({ day: o.id })
+      })),
+      guests: list.map((a, i) => {
+        const st = P.estadoDe(a, now), look = Component.LOOK[i % Component.LOOK.length];
+        return {
+          ...look, nome: a.nome, foto: a.foto, alt: 'Foto de ' + a.nome, kind: P.tipo(a), quando: P.quandoTexto(a),
+          live: st === 'aovivo', past: st === 'passou', filter: st === 'passou' ? 'grayscale(1) contrast(1.05)' : 'none',
+          display: inDay(a, day) ? 'flex' : 'none',
+          aria: a.nome + ', ' + P.tipo(a).toLowerCase() + ', ' + P.quandoTexto(a) + (st === 'aovivo' ? ', acontecendo agora' : st === 'passou' ? ', já aconteceu' : '') + '. Ver no cronograma',
+          enter: () => this.enter(i), go: () => P.mostrar(a.id)
+        };
+      })
+    };
   }
 }
 </script>

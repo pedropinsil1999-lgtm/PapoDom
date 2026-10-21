@@ -26,11 +26,12 @@ Abra http://localhost:5173. É preciso usar um servidor: abrir o `index.html` di
 
 O site está em https://papodom.vercel.app, publicado pela Vercel a partir deste repositório. Cada `git push` na branch `main` gera uma nova publicação automaticamente. Não há etapa de build: a Vercel serve os arquivos como estão (`serve.js`, `README.md` e `_original/` ficam de fora via `.vercelignore`).
 
+## Atrações e programação
+
+Nomes, fotos, tipos e horários ficam em `js/programacao.js`: a seção Atrações (polaroids) e a Programação (linha do tempo) leem de lá. Fotos em `assets/atracoes/` (WebP quadrado, 600 px). Para mudar um horário ou acrescentar alguém, edite só esse arquivo.
+
 ## Pendências (dependem de conteúdo)
 
 - **Sympla:** em `Evento.dc.html`, trocar "Inscrições em breve pelo Sympla" por um link `<a href="…">Inscreva-se pelo Sympla</a>` (há um comentário no ponto exato).
-- **Programação:** em `Evento.dc.html`, trocar o bloco "Em breve" pela lista de atividades.
-- **Atrações:** em `Scrapbook.dc.html`, preencher `GUESTS` com nome, descrição e foto.
 - **Espaços:** em `Web.dc.html`, voltar com a lista numerada de locais.
 - **Fotos da turma:** os dois espaços de foto em `Revista.dc.html`.
-- **Domínio:** ao publicar, trocar `assets/og.png` no `<head>` do `index.html` pelo endereço completo e adicionar `og:url` e `<link rel="canonical">`.
