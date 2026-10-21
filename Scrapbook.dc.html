@@ -69,7 +69,6 @@
       </div>
     </div>
   </section>
-  <div data-blur="" aria-hidden="true" style="position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;visibility:hidden;background:rgba(150,24,84,.18);"></div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
@@ -101,21 +100,18 @@ class Component extends DCLogic {
     const cards = el.querySelectorAll('[data-card]');
     gsap.from(cards, { y: red ? 0 : 40, opacity: 0, duration: red ? .4 : .7, ease: 'power3.out', stagger: .08, scrollTrigger: { trigger: cards[0], start: 'top 85%' } });
   }
-  // Hover: o card cresce um pouco e sobe acima de uma camada que desfoca o resto da seção.
+  // Hover: o card em foco sobe e cresce um pouco; os outros só ficam mais apagados. Apenas transform e
+  // opacity (feitos pela placa de vídeo): sem camada por cima e sem filter: blur, que pesava com as fotos.
   enter(i) {
     const el = this.root.current; if (!el || !window.gsap || !matchMedia('(hover: hover)').matches) return;
     const cards = el.querySelectorAll('[data-card]'), c = cards[i], red = PapoFX.isReduced && PapoFX.isReduced();
-    // Leve: sem backdrop-filter na seção inteira. Só um véu de cor (opacity) + blur pequeno nos outros cartões.
-    cards.forEach(k => { if (k !== c) { k.style.zIndex = ''; gsap.to(k, { scale: 1, filter: red ? 'none' : 'blur(2px)', duration: .3, overwrite: 'auto' }); } });
-    gsap.set(c, { filter: 'none' });
+    cards.forEach(k => { if (k !== c) { k.style.zIndex = ''; gsap.to(k, { scale: 1, y: 0, opacity: .5, duration: .3, ease: 'power2.out', overwrite: 'auto' }); } });
     c.style.zIndex = '3';
-    gsap.to(c, { scale: red ? 1 : 1.06, duration: .45, ease: 'power3.out', overwrite: 'auto' });
-    gsap.to(el.querySelector('[data-blur]'), { autoAlpha: 1, duration: red ? 0 : .35, ease: 'power2.out', overwrite: true });
+    gsap.to(c, { scale: red ? 1 : 1.05, y: red ? 0 : -8, opacity: 1, duration: .4, ease: 'power3.out', overwrite: 'auto' });
   }
   leave = () => {
     const el = this.root.current; if (!el || !window.gsap) return;
-    el.querySelectorAll('[data-card]').forEach(k => gsap.to(k, { scale: 1, filter: 'blur(0px)', duration: .3, ease: 'power3.out', overwrite: 'auto', onComplete: () => { k.style.zIndex = ''; k.style.filter = ''; } }));
-    gsap.to(el.querySelector('[data-blur]'), { autoAlpha: 0, duration: .3, ease: 'power2.out', overwrite: true });
+    el.querySelectorAll('[data-card]').forEach(k => gsap.to(k, { scale: 1, y: 0, opacity: 1, duration: .3, ease: 'power3.out', overwrite: 'auto', onComplete: () => { k.style.zIndex = ''; gsap.set(k, { clearProps: 'transform,opacity' }); } }));
   };
   renderVals() {
     const P = window.PAPO_PROG, list = P ? P.atracoes : [], day = this.state.day, now = this.state.now;
