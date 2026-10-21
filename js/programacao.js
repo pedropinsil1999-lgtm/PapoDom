@@ -1,6 +1,6 @@
 /* Papo Dom · programação. Fonte única: a seção Atrações e a Programação leem daqui.
    Horários de Brasília (UTC−3). Para mudar um horário, troque só aqui.
-   tipo: rótulo mostrado (vazio = "Atração"). slots: um por dia em que a pessoa participa. */
+   tipo: Palestra, Oficina, Dança ou Estande (vazio = "Atração"). slots: um por dia em que a pessoa participa. */
 (function () {
   var P = window.PAPO_PROG = {
     dias: [
@@ -10,13 +10,13 @@
     // eixo da linha do tempo (minutos desde 0h)
     eixo: { ini: 19 * 60, fim: 21 * 60 + 30 },
     atracoes: [
-      { id: 'victoria', nome: 'Victória Felbinger', curto: 'Victória', foto: 'assets/atracoes/victoria-felbinger.webp', slots: [{ dia: '27', ini: '19:20', fim: '20:00' }] },
-      { id: 'fernando', nome: 'Fernando Arcanjo', curto: 'Fernando', foto: 'assets/atracoes/fernando-arcanjo.webp', slots: [{ dia: '27', ini: '20:00', fim: '20:40' }] },
+      { id: 'victoria', nome: 'Victória Felbinger', curto: 'Victória', tipo: 'Palestra', foto: 'assets/atracoes/victoria-felbinger.webp', slots: [{ dia: '27', ini: '19:20', fim: '20:00' }] },
+      { id: 'fernando', nome: 'Fernando Arcanjo', curto: 'Fernando', tipo: 'Palestra', foto: 'assets/atracoes/fernando-arcanjo.webp', slots: [{ dia: '27', ini: '20:00', fim: '20:40' }] },
       { id: 'bea', nome: 'Beatriz Lemes', curto: 'Bea', tipo: 'Oficina', foto: 'assets/atracoes/beatriz-lemes.webp', slots: [{ dia: '27', ini: '20:20', fim: '21:20' }] },
-      { id: 'mamutus', nome: 'Pedro Mamutus', curto: 'Pedro Mamutus', foto: 'assets/atracoes/pedro-mamutus.webp', slots: [{ dia: '28', ini: '19:10', fim: '19:50' }] },
+      { id: 'mamutus', nome: 'Pedro Mamutus', curto: 'Pedro Mamutus', tipo: 'Palestra', foto: 'assets/atracoes/pedro-mamutus.webp', slots: [{ dia: '28', ini: '19:10', fim: '19:50' }] },
       { id: 'joao', nome: 'João Pedro', curto: 'João Pedro', tipo: 'Dança', foto: 'assets/atracoes/joao-pedro.webp', slots: [{ dia: '28', ini: '19:50', fim: '20:20' }] },
-      { id: 'ivan', nome: 'Ivan Viana', curto: 'Ivan', foto: 'assets/atracoes/ivan-viana.webp', slots: [{ dia: '28', ini: '20:20', fim: '21:15' }] },
-      { id: 'ariel', nome: 'Ariel Morgana', curto: 'Ariel', foto: 'assets/atracoes/ariel-morgana.webp', slots: [{ dia: '28', ini: '20:30', fim: '21:30' }] },
+      { id: 'ivan', nome: 'Ivan Viana', curto: 'Ivan', tipo: 'Palestra', foto: 'assets/atracoes/ivan-viana.webp', slots: [{ dia: '28', ini: '20:20', fim: '21:15' }] },
+      { id: 'ariel', nome: 'Ariel Morgana', curto: 'Ariel', tipo: 'Palestra', foto: 'assets/atracoes/ariel-morgana.webp', slots: [{ dia: '28', ini: '20:30', fim: '21:30' }] },
       { id: 'luiza', nome: 'Luiza', curto: 'Luiza', tipo: 'Estande', fixo: true, foto: 'assets/atracoes/luiza.webp', slots: [{ dia: '27', ini: '19:00', fim: '21:00' }, { dia: '28', ini: '19:00', fim: '21:00' }] }
     ]
   };
