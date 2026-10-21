@@ -46,25 +46,6 @@
     var s = a.slots[0], d = dia(s.dia);
     return d.semana.slice(0, 3) + ' ' + d.rotulo + ' · ' + P.faixa(s);
   };
-  // .ics de um slot (ou de todos os slots da pessoa)
-  P.ics = function (a, slots) {
-    var z = function (ms) { return new Date(ms).toISOString().replace(/[-:]|\.\d{3}/g, ''); };
-    var ev = (slots || a.slots).map(function (s) {
-      var q = P.quando(s);
-      return ['BEGIN:VEVENT', 'UID:papodom15-' + a.id + '-' + s.dia + '@papodom', 'DTSTAMP:' + z(Date.now()),
-        'DTSTART:' + z(q.ini), 'DTEND:' + z(q.fim),
-        'SUMMARY:' + a.nome + (a.tipo ? ' (' + a.tipo.toLowerCase() + ')' : '') + ' · Papo Dom 15',
-        'DESCRIPTION:Papo Dom · Conexões — 15ª edição. Evento de Comunicação Social da UniDomBosco.',
-        'LOCATION:AEDB\\, Av. Cel. Prof. Antônio Esteves\\, 1 - Campo de Aviação\\, Resende - RJ\\, 27523-000', 'END:VEVENT'].join('\r\n');
-    });
-    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Papo Dom//PT-BR', 'CALSCALE:GREGORIAN'].concat(ev, ['END:VCALENDAR']).join('\r\n');
-  };
-  P.baixar = function (nome, texto) {
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([texto], { type: 'text/calendar;charset=utf-8' }));
-    a.download = nome; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
-  };
   // pedir à Programação para mostrar uma atração (Atrações → cronograma)
   P.mostrar = function (id) { window.dispatchEvent(new CustomEvent('papo:programacao', { detail: { id: id } })); };
 })();
